@@ -1,0 +1,30 @@
+{
+  "cli": {
+    "version": ">= 10.2.2"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "channel": "development",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_WEBSITE_URL": "https://skirm-app.vercel.app",
+        "PAYSTACK_SECRET": "sk_test_dbf868c66152048b6d2dced1a87062eee5d1ac2d",
+        "PAYSTACK_PUBLIC_KEY": "pk_test_71345d7ccad3b884ac34a47bdaea17d76eea11ab"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "channel": "preview"
+    },
+    "production": {
+      "channel": "production"
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

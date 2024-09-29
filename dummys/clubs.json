@@ -1,0 +1,102 @@
+[
+  {
+    "_id": "jnkcnscdsk",
+    "name": "Arsenal",
+    "logo": "https://1000logos.net/wp-content/uploads/2016/10/Arsenal-Logo.png",
+    "primaryColor": "#EF0107",
+    "country": "England",
+    "state": "London",
+
+    "homeLeague": "Premier League"
+  },
+  {
+    "_id": "bavmun123",
+    "name": "Bayern Munich",
+    "logo": "https://1000logos.net/wp-content/uploads/2018/05/Bayern-M%C3%BCnchen-Logo.png",
+    "country": "Germany",
+
+    "state": "Bavaria",
+    "primaryColor": "#DC052D",
+    "homeLeague": "Bundesliga"
+  },
+  {
+    "_id": "barca456",
+    "name": "Barcelona",
+    "logo": "https://1000logos.net/wp-content/uploads/2016/10/Barcelona-Logo.png",
+    "country": "Spain",
+
+    "state": "Catalonia",
+    "primaryColor": "#004D98",
+    "homeLeague": "La Liga"
+  },
+  {
+    "_id": "realmad789",
+    "name": "Real Madrid",
+    "logo": "https://1000logos.net/wp-content/uploads/2020/09/Real-Madrid-logo.png",
+    "country": "Spain",
+
+    "state": "Madrid",
+    "primaryColor": "#FFFFFF",
+    "homeLeague": "La Liga"
+  },
+  {
+    "_id": "juve101",
+    "name": "Juventus",
+    "logo": "https://1000logos.net/wp-content/uploads/2021/05/Juventus-logo.png",
+    "country": "Italy",
+
+    "state": "Turin",
+    "primaryColor": "#000000",
+    "homeLeague": "Serie A"
+  },
+  {
+    "_id": "acmilan202",
+    "name": "AC Milan",
+    "logo": "https://1000logos.net/wp-content/uploads/2016/10/AC-Milan-Logo.png",
+    "country": "Italy",
+
+    "state": "Milan",
+    "primaryColor": "#FB090B",
+    "homeLeague": "Serie A"
+  },
+  {
+    "_id": "bvb303",
+    "name": "Borussia Dortmund",
+    "logo": "https://1000logos.net/wp-content/uploads/2017/08/BVB-Logo.png",
+    "country": "Germany",
+
+    "state": "North Rhine-Westphalia",
+    "primaryColor": "#FDE100",
+    "homeLeague": "Bundesliga"
+  },
+  {
+    "_id": "atlmad404",
+    "name": "Atletico Madrid",
+    "logo": "https://1000logos.net/wp-content/uploads/2018/05/Atletico-Madrid-Logo.png",
+    "country": "Spain",
+
+    "state": "Madrid",
+    "primaryColor": "#DB0A40",
+    "homeLeague": "La Liga"
+  },
+  {
+    "_id": "intermil505",
+    "name": "Inter Milan",
+    "logo": "https://1000logos.net/wp-content/uploads/2021/05/Inter-Milan-logo.png",
+    "country": "Italy",
+
+    "state": "Milan",
+    "primaryColor": "#0057B8",
+    "homeLeague": "Serie A"
+  },
+  {
+    "_id": "rbleip606",
+    "name": "RB Leipzig",
+    "logo": "https://1000logos.net/wp-content/uploads/2022/08/RB-Leipzig-Logo.png",
+    "country": "Germany",
+
+    "state": "Saxony",
+    "primaryColor": "#DD0741",
+    "homeLeague": "Bundesliga"
+  }
+]
