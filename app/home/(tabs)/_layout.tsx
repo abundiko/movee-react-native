@@ -12,14 +12,14 @@ const tabs = [
     icons: ["home", "home-outline"] as any[],
   },
   {
-    name: "explore",
-    title: "Explore",
-    icons: ["add-circle", "add-circle-outline"] as any[],
+    name: "saved",
+    title: "Saved",
+    icons: ["heart", "heart-outline"] as any[],
   },
   {
     name: "settings",
     title: "Settings",
-    icons: ["person", "person-outline"] as any[],
+    icons: ["settings", "settings-outline"] as any[],
   },
 ];
 
@@ -35,7 +35,7 @@ export default function _layout() {
           ...styles.tabBarStyle,
           backgroundColor: bg,
           shadowColor: Color(textLighter).alpha(.3).hexa(),
-          borderColor: Color(textLighter).alpha(.2).hexa(),
+          borderColor: Color(textLighter).alpha(.1).hexa(),
           shadowRadius: 1,
           elevation: 1,
         },
@@ -84,19 +84,14 @@ export default function _layout() {
 
 const styles = StyleSheet.create({
   tabBarStyle: {
-    position: "absolute",
-    bottom: 16,
-    left: 16,
-    right: 16,
     elevation: 0,
-    borderRadius: 16,
     height: 80,
     shadowColor: "#00000033",
     shadowRadius: 10,
     padding: 16,
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#00000011",
+    borderTopWidth: 1,
+    borderColor: "#00000000",
   },
 });

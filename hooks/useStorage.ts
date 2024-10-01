@@ -1,27 +1,49 @@
-import { SupportedLocales } from "@/localization";
+import { Movie } from "@/types";
 import { tags } from "@/utils";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ColorSchemeSystem } from "nativewind/dist/style-sheet/color-scheme";
 
-export function useStorageAccessToken() {
-  const { getItem } = useAsyncStorage(tags.accessToken);
-  const { data: storedAccessToken, isLoading: accessTokenLoading, error: accessTokenError, ...others } = useQuery({
-    queryKey: [tags.accessToken],
+
+
+export function useStorageSaved() {
+  const { getItem, setItem } = useAsyncStorage(tags.saved);
+
+  const { data: storedsaved, isLoading: savedLoading, error: savedError, refetch: refetchsaved, ...others } = useQuery({
+    queryKey: [tags.saved],
     queryFn: async () => {
-      return await getItem();
+      const saved = await getItem();
+      if (!saved) {
+        await setItem(JSON.stringify([]));
+        return JSON.parse((await getItem() ?? '[]')) as Movie[];
+      }
+      return JSON.parse(saved) as Movie[];
     },
   });
 
 
+  const { mutate: updatesaved } = useMutation({
+    mutationFn: async (value: Movie[]) => {
+      // console.log({ hia: value });
+      await setItem(JSON.stringify(value));
+      await refetchsaved();
+    },
+    onMutate: async () => {
+      await refetchsaved();
+      // console.log({ hmm: 10293, storedsaved });
+
+    },
+  })
+
   return {
-    storedAccessToken,
-    accessTokenLoading,
-    accessTokenError,
+    storedsaved,
+    savedLoading,
+    savedError,
+    refetchsaved,
+    updatesaved,
     ...others
   }
 }
-
 export function useStorageTheme() {
   const { getItem, setItem } = useAsyncStorage(tags.theme);
 
@@ -61,43 +83,3 @@ export function useStorageTheme() {
   }
 }
 
-export function useStorageLanguage() {
-  const { getItem, setItem } = useAsyncStorage(tags.language);
-
-  const { data: storedLanguage, isLoading: languageLoading, error: languageError, refetch: refetchLanguage, ...others } = useQuery({
-    queryKey: [tags.language],
-    queryFn: async () => {
-      const lng = await getItem();
-      // console.log({lng});
-      
-      if (!lng) {
-        await setItem('en');
-        return (await getItem()) as SupportedLocales;
-      }
-      return lng as SupportedLocales;
-    },
-  });
-
-
-  const { mutate: updateLanguage } = useMutation({
-    mutationFn: async (value: SupportedLocales) => {
-      // console.log({ hia: value });
-      await setItem(value);
-      await refetchLanguage();
-    },
-    onMutate: async () => {
-      await refetchLanguage();
-      // console.log({ hmm: 10293, storedLanguage });
-
-    },
-  })
-
-  return {
-    storedLanguage,
-    languageLoading,
-    languageError,
-    refetchLanguage,
-    updateLanguage,
-    ...others
-  }
-}

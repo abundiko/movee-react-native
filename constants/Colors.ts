@@ -4,12 +4,12 @@ export const Colors = {
   light: "#ccc",
   lightGrey: "#acacac",
   black: "#000",
-  dark: "#444",
+  dark: "#111",
   darker: "#101010",
   darkGrey: "#777",
 
-  primary: "#c13400",
-  primaryLight: "#FF5F24",
+  primary: "#1949ff",
+  primaryLight: "#87a0ff",
   primaryDark: "#8E2600",
 
   secondary: "#3fb12e",

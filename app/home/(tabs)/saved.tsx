@@ -1,43 +1,37 @@
-import { AppScaffold } from '@/components/layout'
-import React, { useState } from 'react'
-import { View } from 'react-native'
+import { FetchMoviesParams } from "@/actions/fetchMovies";
+import { SearchInput } from "@/components/formComponents";
+import { HomeMovies } from "@/components/home";
+import { AppScaffold } from "@/components/layout";
+import { useStorageSaved } from "@/hooks";
+import { useState } from "react";
+import { View } from "react-native";
 
-export default function Explore() {
-  const [refreshing, setRefreshing] = useState(false); // Add state for refreshing
-  const [league, setLeague] = useState("");
-
-  const onRefresh = () => {
-    setRefreshing(true);
-    // Add your refresh logic here
-    // Simulate a refresh with a timeout
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  };
+export default function SavedScreen() {
+  const [args, setArgs] = useState<FetchMoviesParams>({});
+  const { storedsaved, savedLoading } = useStorageSaved()
 
   return (
     <AppScaffold
-      refreshing={refreshing}
-      onRefresh={onRefresh}
-      title={"Open Skirms"
+      appbarHeight={40}
+      title={
+        "Saved Movees"
       }
       hideBack
-      underAppbar={<View className="mx-4 flex-row items-center">
-        {/* <AppSelect
-          label="Select Category"
-          options={availableLeagues}
-          value={availableLeagues[0]}
-          scrollable
-          snapPoints={['50%', '60%']}
-          renderButton={(v) => {
-            setLeague(v.value)
-            return <AppButton className={`${cls.btn.selectClass}`}>
-              <TText>{v.title}</TText>
-            </AppButton>
-          }}
-        /> */}
-      </View>}
+      refreshing={savedLoading}
+      underAppbar={
+        <View className="flex-row px-4">
+          <SearchInput placeholder="Search saved movies"
+            onEndEditing={(e) => {
+              setArgs(old => ({ ...old, q: e.nativeEvent.text }))
+            }}
+          />
+        </View>
+      }
     >
+      {
+        savedLoading || !storedsaved ? <></>
+          : <HomeMovies movies={storedsaved} />
+      }
     </AppScaffold>
-  )
+  );
 }

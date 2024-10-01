@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Movee",
-    "slug": "SkirmApp",
+    "slug": "movee",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -16,12 +16,15 @@
       "supportsTablet": true
     },
     "android": {
-      "permissions": ["INTERNET"],
+      "permissions": [
+        "android.permission.INTERNET",
+        "android.permission.RECORD_AUDIO"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.abundiko.SkirmApp"
+      "package": "com.abundiko.movee"
     },
     "web": {
       "bundler": "metro",
@@ -33,8 +36,8 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "SkirmApp needs to accesses your photos for profile photos.",
-          "cameraPermission": "SkirmApp needs to accesses your photos for profile photos."
+          "photosPermission": "movee needs to accesses your photos for profile photos.",
+          "cameraPermission": "movee needs to accesses your photos for profile photos."
         }
       ]
     ],
@@ -46,14 +49,15 @@
         "origin": false
       },
       "eas": {
-        "projectId": "ca605798-8101-4b79-b193-b2afcba910c4"
+        "projectId": "dc3bddd2-79e6-40af-b086-a0a3b2f12d20"
       }
     },
     "runtimeVersion": {
-      "policy": "appVersion"
+      "policy": "1.0.0"
     },
     "updates": {
-      "url": "https://u.expo.dev/ca605798-8101-4b79-b193-b2afcba910c4"
-    }
+      "url": "https://u.expo.dev/dc3bddd2-79e6-40af-b086-a0a3b2f12d20"
+    },
+    "owner": "abundiko"
   }
 }

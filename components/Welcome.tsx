@@ -10,39 +10,35 @@ import {
   TTextPrimary
 } from "./Themed";
 import { AppButton } from "./ui";
-import { useTranslation } from "react-i18next";
 
 export default function Welcome() {
-  const { t } = useTranslation()
 
   return (
     <TBgView className="flex-1">
       <View className="flex-1 justify-end items-center">
-        <Image source={require('@/assets/images/hero.png')}
+        {/* <Image source={require('@/assets/images/hero.png')}
         className=" aspect-[1122/1855] h-[80vh] rotate-6 translate-y-20"
-         />
+         /> */}
       </View>
       <View className="flex-1 p-5 justify-end max-w-[700px] mx-auto">
-        <TText className="font-semibold text-4xl text-center mb-2 leading-tight">
-          {t("index.title")}
+        <TText className="font-semibold text-4xl mb-2 leading-tight">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam et sapiente adipisci? Eos sunt exercitationem
         </TText>
         <TTextLighter className="text-sm text-center mb-4">
-          {t("index.subTitle")}
         </TTextLighter>
-        <View className="flex-row mb-10 justify-center">
+        <View className="mb-10 justify-center  gap-y-4">
           <AppButton
             onPress={() => router.push(paths.home)}
-            className={`${cls.btn.primaryClass} w-[48%]`}
+            className={`${cls.btn.primaryClass} `}
           >
-            <TText>{t("index.btn.login")}</TText>
+            <TText>Enter for Free</TText>
           </AppButton>
-          <View className="w-4" />
-          <AppButton
+          {/* <AppButton
             onPress={() => router.push(paths.register)}
-            className={`${cls.btn.primaryBorderClass} w-[48%]`}
+            className={`${cls.btn.primaryBorderClass} flex-1`}
           >
-            <TTextPrimary>{t("index.btn.registerNow")}</TTextPrimary>
-          </AppButton>
+            <TTextPrimary>hello</TTextPrimary>
+          </AppButton> */}
         </View>
       </View>
     </TBgView>

@@ -15,14 +15,14 @@ export const cls = {
     secondaryClass: "text-secondary",
   },
   btn: {
-    primaryClass: buttonClass + "py-3 rounded-[35px] bg-primary border-primary",
-    primaryAltClass: buttonClass + "py-3 rounded-[35px] bg-primary/20 border-primary",
-    primaryBorderClass: buttonClass + "py-3 rounded-[35px] border-primary",
+    primaryClass: buttonClass + "py-4 rounded-[20px] bg-primary border-primary",
+    primaryAltClass: buttonClass + "py-4 rounded-[20px] bg-primary/20 border-primary",
+    primaryBorderClass: buttonClass + "py-4 rounded-[20px] border-primary",
     secondaryClass:
-      buttonClass + "py-3 rounded-[35px] bg-secondary border-secondary",
+      buttonClass + "py-4 rounded-[20px] bg-secondary border-secondary",
     secondaryAltClass:
-      buttonClass + "py-3 rounded-[35px] bg-secondary/20 border-secondary",
-    secondaryBorderClass: buttonClass + "py-3 rounded-[35px] border-secondary",
+      buttonClass + "py-4 rounded-[20px] bg-secondary/20 border-secondary",
+    secondaryBorderClass: buttonClass + "py-4 rounded-[20px] border-secondary",
     iconClass: "h-10 w-10 rounded-lg items-center justify-center",
     selectClass: "px-4 py-2.5 rounded-[30px] bg-primary/20 flex-row items-center"
   },

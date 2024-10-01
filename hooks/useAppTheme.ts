@@ -1,5 +1,4 @@
 import { ThemeColors } from "@/constants";
-import { setBackgroundColorAsync } from "expo-system-ui";
 import { useColorScheme } from "nativewind";
 import { useEffect, useMemo, useState } from "react";
 import { Appearance } from 'react-native';

@@ -39,10 +39,11 @@ export default function AppBar({
         </Pressable>
       )}
       {typeof title == "string" ? (
-        <TText className="flex-1 text-lg font-semibold">{title}</TText>
+        <TText className="flex-1 text-lg font-semibold line-clamp-1">{title}</TText>
       ) : (
         title
       )}
+      {children}
     </TBgView>
   );
 }

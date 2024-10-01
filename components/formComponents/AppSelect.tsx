@@ -14,6 +14,7 @@ export type AppSelectOptions = string | {
 
 export type AppSelectProps<T = AppSelectOptions> = {
     renderButton: (value: T) => ReactNode;
+    onChange: (value: T) => void;
     options: T[];
     label: string;
     value?: T;
@@ -22,7 +23,7 @@ export type AppSelectProps<T = AppSelectOptions> = {
 }
 
 export function AppSelect<T extends AppSelectOptions>({
-    renderButton, options, label, value, scrollable = false, snapPoints
+    renderButton, options, label, value, scrollable = false, snapPoints, onChange
 }: AppSelectProps<T>) {
     const [selected, setSelected] = useState(value);
     const { closeModal, openModal, ref } = useBottomSheet();
@@ -67,6 +68,7 @@ export function AppSelect<T extends AppSelectOptions>({
                                     underline={options.indexOf(item) !== options.length - 1}
                                     onClick={() => {
                                         setSelected(item);
+                                        onChange(item)
                                         closeModal();
                                     }}
                                     suffixIcon={item == selected ? "checkmark" : false}

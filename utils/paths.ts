@@ -4,26 +4,12 @@ export const paths = {
     register: "/auth/register",
 
     home: "/home",
-    notifications: "/notifications",
-    profile: "/profile",
-    skirms: "/skirms",
+    settings: "/home/settings",
+    saved: "/home/saved",
     
-    profileEditProfile: "/profile/edit/profile",
-    profileEditUsername: "/profile/edit/username",
-    profileEditPassword: "/profile/edit/password",
-    profileEditPhoto: "/profile/edit/photo",
-    
-    mySkirms: "home/skirms/my-skirms",
-    createSkirm: "/home/skirms/create",
-    newSkirm: "/home/skirms/new",
+    singleMovie: (id:string)=>`/movies/${id}`,
 
-    wallet: "/home/wallet",
-    walletTransactionHistory: "/home/wallet/history",
-    walletDeposit: "/home/wallet/deposit",
-    walletWithdraw: "/home/wallet/withdraw",
-
-    appSettings: "/profile/app-settings",
-    profileSettings: "/profile/profile-settings",
+    settingsHistory: "/settings/history",
 
     about: "/profile/about",
     aboutFaq: "/profile/about/faq",

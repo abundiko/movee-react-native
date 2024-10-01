@@ -1,5 +1,5 @@
 export const tags = {
     theme: "THEME",
-    language: "LANGUAGE",
+    saved: "SAVED",
     accessToken: "access_token",
 }
