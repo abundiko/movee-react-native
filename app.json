@@ -22,7 +22,7 @@
       ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "monochromeImage": "./assets/images/monochrome-icon.svg",
+        "monochromeImage": "./assets/images/monochrome-icon.png",
         "backgroundColor": "#111111"
       },
       "package": "com.abundiko.movee"

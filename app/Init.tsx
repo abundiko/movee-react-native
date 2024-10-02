@@ -1,4 +1,4 @@
-import { TBgView, TTextLight, TTextLighter } from "@/components/Themed";
+import { TTextLight, TTextLighter } from "@/components/Themed";
 import { APP_VERSION } from "@/constants";
 import { useAppTheme, useStorageSaved, useStorageTheme } from "@/hooks";
 import { setBackgroundColorAsync } from "expo-system-ui";
@@ -38,9 +38,9 @@ export default function Init({ children }: { children: ReactNode }) {
         <Image source={require('@/assets/images/icon.png')}
             className='h-40 rounded-3xl w-40 mt-[30vh]'
         />
-        <TTextLight className='text-sm mt-2 font-semibold'>Movee - by Abundiko</TTextLight>
         <View className="h-[40vh]" />
-        <TTextLighter className='text-sm mt-3'>version {APP_VERSION}</TTextLighter>
+        <TTextLight className='text-sm mt-2 font-semibold'>Movee • by Abundiko</TTextLight>
+        <TTextLighter className='text-sm mt-2'>version {APP_VERSION}</TTextLighter>
 
     </Animated.View>;
 

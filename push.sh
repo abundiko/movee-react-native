@@ -1,6 +1,6 @@
 git add .
 
-COMMIT_MESSAGE="added hero image, added fr localization, added localization for login and register screens"
+COMMIT_MESSAGE="added backend url more public"
 
 git commit -m "$COMMIT_MESSAGE"
 
