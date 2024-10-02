@@ -43,6 +43,15 @@ export default function Stream() {
 
   return (
     <TBgPureView style={styles.contentContainer}>
+
+      <VideoView
+        ref={ref}
+        style={styles.video}
+        player={player}
+        allowsFullscreen
+        allowsPictureInPicture
+        className=' w-full h-full top-0 left-0 absolute m-auto'
+      />
       {
         !playing &&
         <AppButton
@@ -52,15 +61,6 @@ export default function Stream() {
           <Ionicons size={20} color={text} name='chevron-back' />
         </AppButton>
       }
-      <VideoView
-        ref={ref}
-        style={styles.video}
-        player={player}
-        allowsFullscreen
-        allowsPictureInPicture
-        className='bg-red-500/10 w-full h-full top-0 left-0 absolute'
-      />
-
     </TBgPureView>
   );
 }
