@@ -9,7 +9,6 @@ export default function Profile() {
     <AppScaffold
       title='Settings'
       hideBack
-      noScroll
     >
       <SettingsList />
     </AppScaffold>

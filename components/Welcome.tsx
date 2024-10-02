@@ -6,23 +6,29 @@ import { Image, View } from "react-native";
 import {
   TBgView,
   TText,
-  TTextLighter,
-  TTextPrimary
+  TTextLighter
 } from "./Themed";
 import { AppButton } from "./ui";
+import { LinearGradient } from 'expo-linear-gradient'
+import { useAppTheme } from "@/hooks";
 
 export default function Welcome() {
+  const { bg } = useAppTheme();
 
   return (
     <TBgView className="flex-1">
-      <View className="flex-1 justify-end items-center">
-        {/* <Image source={require('@/assets/images/hero.png')}
-        className=" aspect-[1122/1855] h-[80vh] rotate-6 translate-y-20"
-         /> */}
+      <View className="flex-1 justify-end items-center relative">
+        <Image source={require('@/assets/images/hero.png')}
+          resizeMode="cover"
+          className="h-full w-full absolute top-0 left-0 " />
+        <LinearGradient
+          className="h-full w-full absolute top-0 left-0"
+          colors={['#ff343400', bg]}
+        />
       </View>
-      <View className="flex-1 p-5 justify-end max-w-[700px] mx-auto">
-        <TText className="font-semibold text-4xl mb-2 leading-tight">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam et sapiente adipisci? Eos sunt exercitationem
+      <View className="flex-1 p-4 justify-end max-w-[700px] mx-auto">
+        <TText className="font-[500] text-4xl mb-2 leading-tight">
+          We both know you are here to watch movies completely free, what are you still waiting for?!
         </TText>
         <TTextLighter className="text-sm text-center mb-4">
         </TTextLighter>
@@ -31,14 +37,8 @@ export default function Welcome() {
             onPress={() => router.push(paths.home)}
             className={`${cls.btn.primaryClass} `}
           >
-            <TText>Enter for Free</TText>
+            <TText>Let's goooo</TText>
           </AppButton>
-          {/* <AppButton
-            onPress={() => router.push(paths.register)}
-            className={`${cls.btn.primaryBorderClass} flex-1`}
-          >
-            <TTextPrimary>hello</TTextPrimary>
-          </AppButton> */}
         </View>
       </View>
     </TBgView>

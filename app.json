@@ -22,7 +22,8 @@
       ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "monochromeImage": "./assets/images/monochrome-icon.svg",
+        "backgroundColor": "#111111"
       },
       "package": "com.abundiko.movee"
     },
@@ -39,6 +40,13 @@
           "photosPermission": "movee needs to accesses your photos for profile photos.",
           "cameraPermission": "movee needs to accesses your photos for profile photos."
         }
+      ],
+      "expo-video",
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "POTRAIT"
+        }
       ]
     ],
     "experiments": {
@@ -52,9 +60,7 @@
         "projectId": "dc3bddd2-79e6-40af-b086-a0a3b2f12d20"
       }
     },
-    "runtimeVersion": {
-      "policy": "1.0.0"
-    },
+    "runtimeVersion": "1.0.0",
     "updates": {
       "url": "https://u.expo.dev/dc3bddd2-79e6-40af-b086-a0a3b2f12d20"
     },

@@ -2,7 +2,7 @@ import { TBgView } from "@/components/Themed";
 import { useAppTheme } from "@/hooks";
 import color from "color";
 import React from "react";
-import { RefreshControl, ScrollView, View } from "react-native";
+import { RefreshControl, ScrollView, ScrollViewProps, View } from "react-native";
 import { LinearProgress } from "../ui";
 import AppBar, { AppBarProps } from "./AppBar";
 
@@ -13,6 +13,7 @@ export type AppScaffoldProps = AppBarProps & {
   noScroll?: boolean;
   refreshing?: boolean;
   onRefresh?: () => void;
+  scrollProps?: ScrollViewProps;
 };
 
 export default function AppScaffold({
@@ -22,6 +23,7 @@ export default function AppScaffold({
   underBody,
   noScroll = false,
   onRefresh, refreshing,
+  scrollProps,
   ...appbarProps
 }: AppScaffoldProps) {
   const { bg } = useAppTheme();
@@ -36,6 +38,7 @@ export default function AppScaffold({
         {
           noScroll ? children :
             <ScrollView
+              {...scrollProps}
               refreshControl={
                 <RefreshControl
                   refreshing={false} // Use refreshing state
@@ -50,7 +53,7 @@ export default function AppScaffold({
               {children}
             </ScrollView>}
       </View>
-        {underBody}
+      {underBody}
     </TBgView>
   );
 }

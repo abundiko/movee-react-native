@@ -10,12 +10,12 @@ export default function SettingsList() {
   const { ref: themeRef, openModal: openThemeModal, closeModal: closeThemeModal } = useBottomSheet();
 
   const items = [
-    {
-      title: "Search History",
-      subTitle: "manage search history",
-      icon: "search",
-      href: paths.settingsHistory,
-    },
+    // {
+    //   title: "Search History",
+    //   subTitle: "manage search history",
+    //   icon: "search",
+    //   href: paths.settingsHistory,
+    // },
     {
       title: "Theme",
       subTitle: "change app theme",

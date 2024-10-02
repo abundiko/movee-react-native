@@ -47,7 +47,7 @@ export function AppSelect<T extends AppSelectOptions>({
                         />
                     )
                 }
-                snapPoints={snapPoints ?? ["40%", "42%"]}
+                snapPoints={scrollable ? undefined : snapPoints ?? ["40%", "42%"]}
                 enableDynamicSizing={scrollable}
                 maxDynamicContentSize={(w.height * 90) / 100}
                 enableContentPanningGesture={!scrollable}
@@ -57,7 +57,7 @@ export function AppSelect<T extends AppSelectOptions>({
                     style={{ backgroundColor: bg, flex: 1 }}
                 >
                     <TTextLight className="text-lg font-[500] mb-4 mx-4">{label}</TTextLight>
-                    <TListView className="p-0">
+                    <TListView className="p-0 flex-1">
                         <FlatList
                             data={options}
                             keyExtractor={(item) => typeof item === 'string' ? item : item.value}

@@ -8,10 +8,11 @@ export const paths = {
     saved: "/home/saved",
     
     singleMovie: (id:string)=>`/movies/${id}`,
+    singleMovieStream: (id:string)=>`/movies/${id}/stream`,
 
     settingsHistory: "/settings/history",
 
-    about: "/profile/about",
+    about: "/settings/about",
     aboutFaq: "/profile/about/faq",
     aboutDevelopers: "/profile/about/devs"
 

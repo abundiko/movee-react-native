@@ -3,23 +3,50 @@ import { FetchMoviesParams } from "@/actions/fetchMovies";
 import { AppSelect, SearchInput } from "@/components/formComponents";
 import { HomeMovies } from "@/components/home";
 import { AppScaffold } from "@/components/layout";
-import { TTextLight } from "@/components/Themed";
+import { TTextLight, TTextLighter } from "@/components/Themed";
 import { AppButton, Message } from "@/components/ui";
 import { cls, COUNTRIES, GENRES } from "@/constants";
 import { year1999TillDate } from "@/functions/date";
+import { Movie } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
-import { View } from "react-native";
+import { useEffect, useMemo, useState } from "react";
+import { NativeScrollEvent, NativeSyntheticEvent, View } from "react-native";
 
 export default function HomeScreen() {
   const [args, setArgs] = useState<FetchMoviesParams>({});
   const years = useMemo(() => year1999TillDate(), []);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [hasMore, setHasMore] = useState(true);
   const { data, isLoading, isError, isRefetching, refetch } = useQuery({
     queryKey: [...(Object.values(args))],
     queryFn: async () => {
-      return await fetchMovies(args)
+      return await fetchMovies(args);
     }
-  })
+  });
+
+  function resetPage() {
+    setArgs(old => ({ ...old, page: 1 }))
+  }
+
+  useEffect(() => {
+    if (!data) return;
+    console.log({ args });
+    setHasMore(data.length >= 20);
+    if (!args.page || args.page == 1) setMovies(data)
+    else setMovies(old => [...old, ...data])
+  }, [data]);
+
+  function onScroll(e: NativeSyntheticEvent<NativeScrollEvent>) {
+    const height = e.nativeEvent.contentSize.height;
+    const off = e.nativeEvent.contentOffset.y + e.nativeEvent.layoutMeasurement.height;
+    const distanceFromBottom = height - off;
+    if (distanceFromBottom < 100) {
+      if (isRefetching || isLoading || !hasMore) return;
+      setArgs(old => ({ ...old, page: (args.page ?? 1) + 1 }))
+      // console.log("readyyyyy");
+    }
+
+  }
 
   return (
     <AppScaffold
@@ -28,13 +55,17 @@ export default function HomeScreen() {
         "Movee"
       }
       hideBack
-      onRefresh={refetch}
+      onRefresh={() => {
+        resetPage();
+        refetch({ cancelRefetch: true });
+      }}
       refreshing={isLoading || isRefetching}
+      scrollProps={{ onScroll }}
       underAppbar={
         <View className="flex-row px-4">
           <SearchInput placeholder="Search movies"
             onEndEditing={(e) => {
-              setArgs(old => ({ ...old, q: e.nativeEvent.text }))
+              setArgs(old => ({ ...old, q: e.nativeEvent.text, page: 1 }))
             }}
           />
         </View>
@@ -47,7 +78,7 @@ export default function HomeScreen() {
           value={years[0]}
           snapPoints={['70%', "70%"]}
           scrollable
-          onChange={(value) => setArgs(old => ({ ...old, "year[]": value.value }))}
+          onChange={(value) => setArgs(old => ({ ...old, "year[]": value.value, page: 1 }))}
           renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
             <TTextLight>{value.title}</TTextLight>
           </AppButton>)}
@@ -59,7 +90,7 @@ export default function HomeScreen() {
           value={GENRES[0]}
           snapPoints={['70%', "70%"]}
           scrollable
-          onChange={(value) => setArgs(old => ({ ...old, "genre[]": value.value }))}
+          onChange={(value) => setArgs(old => ({ ...old, "genre[]": value.value, page: 1 }))}
           renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
             <TTextLight>{value.title}</TTextLight>
           </AppButton>)}
@@ -71,16 +102,16 @@ export default function HomeScreen() {
           value={COUNTRIES[0]}
           snapPoints={['70%', "70%"]}
           scrollable
-          onChange={(value) => setArgs(old => ({ ...old, "country[]": value.value }))}
+          onChange={(value) => setArgs(old => ({ ...old, "country[]": value.value, page: 1 }))}
           renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
             <TTextLight>{value.title}</TTextLight>
           </AppButton>)}
         />
       </View>
       {
-        isLoading || isRefetching ? <></>
-          : isError || !data ? <Message.Danger message="Connection Error!" />
-            : <HomeMovies movies={data} />
+        isError 
+        ? <TTextLighter className="text-3xl p-4">Poor internet connection</TTextLighter>
+        : <HomeMovies movies={movies} />
       }
     </AppScaffold>
   );

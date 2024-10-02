@@ -1,4 +1,3 @@
-import { FetchMoviesParams } from "@/actions/fetchMovies";
 import { SearchInput } from "@/components/formComponents";
 import { HomeMovies } from "@/components/home";
 import { AppScaffold } from "@/components/layout";
@@ -7,7 +6,7 @@ import { useState } from "react";
 import { View } from "react-native";
 
 export default function SavedScreen() {
-  const [args, setArgs] = useState<FetchMoviesParams>({});
+  const [query, setQuery] = useState("");
   const { storedsaved, savedLoading } = useStorageSaved()
 
   return (
@@ -21,8 +20,8 @@ export default function SavedScreen() {
       underAppbar={
         <View className="flex-row px-4">
           <SearchInput placeholder="Search saved movies"
-            onEndEditing={(e) => {
-              setArgs(old => ({ ...old, q: e.nativeEvent.text }))
+            onChangeText={(text) => {
+              setQuery(text)
             }}
           />
         </View>
@@ -30,7 +29,7 @@ export default function SavedScreen() {
     >
       {
         savedLoading || !storedsaved ? <></>
-          : <HomeMovies movies={storedsaved} />
+          : <HomeMovies movies={storedsaved.filter(m => m.title.toLowerCase().includes(query.toLowerCase()))} />
       }
     </AppScaffold>
   );
