@@ -1,6 +1,6 @@
 git add .
 
-COMMIT_MESSAGE="added backend url more public"
+COMMIT_MESSAGE="working on fixing video player"
 
 git commit -m "$COMMIT_MESSAGE"
 

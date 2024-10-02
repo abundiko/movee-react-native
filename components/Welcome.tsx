@@ -35,8 +35,7 @@ export default function Welcome() {
         <View className="mb-10 justify-center  gap-y-4">
           <AppButton
             onPress={() => {
-              router.back();
-              router.push(paths.home)
+              router.replace(paths.home)
             }}
             className={`${cls.btn.primaryClass} `}
           >
