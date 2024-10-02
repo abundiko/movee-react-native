@@ -32,7 +32,7 @@ export default function Init({ children }: { children: ReactNode }) {
         {(() => {
             setTimeout(() => {
                 setInitializing(false);
-            }, 10000);
+            }, 1500);
             return <></>
         })()}
         <Image source={require('@/assets/images/icon.png')}

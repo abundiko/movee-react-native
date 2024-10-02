@@ -34,7 +34,10 @@ export default function Welcome() {
         </TTextLighter>
         <View className="mb-10 justify-center  gap-y-4">
           <AppButton
-            onPress={() => router.push(paths.home)}
+            onPress={() => {
+              router.back();
+              router.push(paths.home)
+            }}
             className={`${cls.btn.primaryClass} `}
           >
             <TText>Let's goooo</TText>
