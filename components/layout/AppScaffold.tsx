@@ -51,6 +51,7 @@ export default function AppScaffold({
               className="flex-1">
               <View className="h-3" />
               {children}
+              <View className="h-6" />
             </ScrollView>}
       </View>
       {underBody}

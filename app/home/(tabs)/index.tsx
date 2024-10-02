@@ -40,7 +40,7 @@ export default function HomeScreen() {
     const height = e.nativeEvent.contentSize.height;
     const off = e.nativeEvent.contentOffset.y + e.nativeEvent.layoutMeasurement.height;
     const distanceFromBottom = height - off;
-    if (distanceFromBottom < 100) {
+    if (distanceFromBottom < 200) {
       if (isRefetching || isLoading || !hasMore) return;
       setArgs(old => ({ ...old, page: (args.page ?? 1) + 1 }))
       // console.log("readyyyyy");

@@ -7,6 +7,7 @@ import * as Orientation from 'expo-screen-orientation';
 import { AppButton } from '@/components/ui'
 import { Ionicons } from '@expo/vector-icons'
 import { useAppTheme } from '@/hooks'
+import { router } from 'expo-router'
 
 export default function Stream() {
   const videoSource = useGlobalStore(s => s.stream)
@@ -43,9 +44,10 @@ export default function Stream() {
   return (
     <TBgPureView style={styles.contentContainer}>
       {
-        playing &&
+        !playing &&
         <AppButton
-          className={"rounded-full w-16 h-16 justify-center items-center bg-light dark:bg-dark absolute top-4 left-4"}
+          onPress={() => router.back()}
+          className={"rounded-full w-12 h-12 justify-center items-center bg-light/50 dark:bg-dark/50 absolute top-4 left-4"}
         >
           <Ionicons size={20} color={text} name='chevron-back' />
         </AppButton>
@@ -56,6 +58,7 @@ export default function Stream() {
         player={player}
         allowsFullscreen
         allowsPictureInPicture
+        className='bg-red-500/10 w-full h-full top-0 left-0 absolute'
       />
 
     </TBgPureView>
@@ -72,5 +75,7 @@ const styles = StyleSheet.create({
   },
   video: {
     flex: 1,
+    width: "100%",
+    height: "100%"
   },
 });
