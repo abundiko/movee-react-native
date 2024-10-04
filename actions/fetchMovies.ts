@@ -18,7 +18,7 @@ export async function fetchMovies(params: FetchMoviesParams): Promise<Movie[] | 
     try {
         const req = await fetch(BACKEND_HOST + "/movies" + buildUrlQuery(params));
         const res = await req.json();
-        console.log({ res });
+        // console.log({ res });
 
         if (!res.success) throw new Error("")
         return res.data as Movie[]
