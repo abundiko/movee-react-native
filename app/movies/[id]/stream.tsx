@@ -1,13 +1,12 @@
 import { TBgPureView } from '@/components/Themed'
+import { AppButton } from '@/components/ui'
+import { useAppTheme } from '@/hooks'
 import { useGlobalStore } from '@/state'
+import { Ionicons } from '@expo/vector-icons'
+import { router } from 'expo-router'
 import { useVideoPlayer, VideoView } from 'expo-video'
 import React, { useEffect, useRef, useState } from 'react'
 import { StyleSheet } from 'react-native'
-import * as Orientation from 'expo-screen-orientation';
-import { AppButton } from '@/components/ui'
-import { Ionicons } from '@expo/vector-icons'
-import { useAppTheme } from '@/hooks'
-import { router } from 'expo-router'
 
 export default function Stream() {
   const videoSource = useGlobalStore(s => s.stream)
@@ -30,16 +29,6 @@ export default function Stream() {
     };
   }, [player]);
 
-  // Orientation 
-  useEffect(() => {
-    // Lock to portrait
-    Orientation.lockAsync(Orientation.OrientationLock.LANDSCAPE);
-
-    // Cleanup function to unlock orientation when the component unmounts
-    return () => {
-      Orientation.lockAsync(Orientation.OrientationLock.PORTRAIT);
-    };
-  }, [])
 
   return (
     <TBgPureView style={styles.contentContainer}>
@@ -50,7 +39,7 @@ export default function Stream() {
         player={player}
         allowsFullscreen
         allowsPictureInPicture
-        className=' w-full h-full top-0 left-0 absolute m-auto'
+        className=' w-full h-full top-1/2 -translate-y-1/2 left-0 absolute m-auto'
       />
       {
         !playing &&

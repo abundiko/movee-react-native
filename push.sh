@@ -1,6 +1,6 @@
 git add .
 
-COMMIT_MESSAGE="working on fixing video player"
+COMMIT_MESSAGE="made some optimizations v1.0.002"
 
 git commit -m "$COMMIT_MESSAGE"
 

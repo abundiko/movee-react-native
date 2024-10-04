@@ -39,7 +39,7 @@ export default function AppBar({
         </Pressable>
       )}
       {typeof title == "string" ? (
-        <TText className="flex-1 text-lg font-semibold line-clamp-1">{title}</TText>
+        <TText numberOfLines={2} className="flex-1 text-lg font-semibold line-clamp-1">{title}</TText>
       ) : (
         title
       )}

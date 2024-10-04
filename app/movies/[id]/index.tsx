@@ -12,7 +12,7 @@ import { paths } from '@/utils';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { router, useLocalSearchParams } from 'expo-router';
-import React, { useMemo, useState } from 'react';
+import React, { memo, useMemo, useState } from 'react';
 import { Image, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
@@ -24,9 +24,12 @@ export default function SingleMovie() {
     const [tabIndex, setTabIndex] = useState(0);
     const [downloadVideo, setDownloadVideo] = useState(false);
     const [downloadSub, setDownloadSub] = useState(false);
-    const { movie: mv, setStream } = useGlobalStore();
-    const movie = useMemo(() => mv, []);
+
+    const setStream = useGlobalStore(s => s.setStream);
+    const mv = useGlobalStore(s => s.movie);
+    const movie = useMemo(() => mv!, []);
     const country = useMemo(() => movie?.country, []);
+    const saved = useMemo(() => storedsaved ? !!(storedsaved).find(i => i.id == movie.id) : false, [storedsaved]);
     const { data, isLoading } = useQuery({
         queryKey: [id, "single_movie"],
         queryFn: async () => {
@@ -48,34 +51,28 @@ export default function SingleMovie() {
                             setStream(data?.download.video + "?redirect=true");
                             router.push(paths.singleMovieStream(movie.id))
                         }}
-                    >
-                        {(() => {
-                            return <Ionicons name={"play"} size={24} color={text} />;
-                        })()}
+                    ><Ionicons name={"play"} size={24} color={text} />
                     </AppButton>}
                     <View className='mx-2' />
                     <AppButton
                         onPress={() => {
-                            if (!!storedsaved.find(i => i.id == movie.id))
-                                updatesaved([...storedsaved.filter(i => i.id != movie.id)]);
-                            else
-                                updatesaved([...storedsaved, movie]);
+                            if (saved) updatesaved([...storedsaved.filter(i => i.id != movie.id)]);
+                            else updatesaved([...storedsaved, movie]);
                         }}
-                    >
-                        {(() => {
-                            const saved = !!storedsaved.find(i => i.id == movie.id);
-                            return <Ionicons name={saved ? 'heart' : 'heart-outline'} size={24} color={saved ? 'red' : text} />;
-                        })()}
+                    ><Ionicons name={saved ? 'heart' : 'heart-outline'} size={24} color={saved ? 'red' : text} />
                     </AppButton>
                 </View>
+                // <></>
             }
-            underBody={<DownloadButtons
-                downloadSub={downloadSub}
-                setDownloadSub={setDownloadSub}
-                downloadVideo={downloadVideo}
-                setDownloadVideo={setDownloadVideo}
-                data={data}
-            />}
+            underBody={
+                <DownloadButtons
+                    downloadSub={downloadSub}
+                    setDownloadSub={setDownloadSub}
+                    downloadVideo={downloadVideo}
+                    setDownloadVideo={setDownloadVideo}
+                    data={data}
+                />
+            }
         >
             {downloadSub && <WebView
                 className='h-0 bg-red-300'
@@ -86,7 +83,11 @@ export default function SingleMovie() {
                     console.log('downloading');
                 }}
                 downloadingMessage={`Downloading subtitle for ${data?.title}`}
-                source={{ uri: data!.download.subtitle + "?redirect=true" }} />}
+                source={{
+                    uri: data!.download.subtitle + "?redirect=true", headers: {
+                        'Content-Type': "text/srt"
+                    }
+                }} />}
             {downloadVideo && <WebView
                 className='h-0 bg-red-300'
                 onError={() => {
@@ -96,7 +97,11 @@ export default function SingleMovie() {
                     console.log('downloading');
                 }}
                 downloadingMessage={`Downloading ${data?.title}`}
-                source={{ uri: data!.download.video + "?redirect=true" }} />}
+                source={{
+                    uri: data!.download.video + "?redirect=true", headers: {
+                        'Content-Type': "video/x-matroska"
+                    }
+                }} />}
             <MovieImage data={data} movie={movie} />
             <MovieDetails movie={movie} country={country} data={data} />
             {!!data && <>
@@ -160,7 +165,7 @@ interface MovieImageProps {
     movie: any; // Replace 'any' with the actual type if available
 }
 
-const MovieImage: React.FC<MovieImageProps> = ({ data, movie }) => (
+const MovieImage: React.FC<MovieImageProps> = memo(({ data, movie }) => (
     <View className='relative aspect-[5/3]'>
         <Image source={{
             uri: data?.imgUrl ?? movie?.imgUrl,
@@ -174,7 +179,7 @@ const MovieImage: React.FC<MovieImageProps> = ({ data, movie }) => (
             />}
         </View>
     </View>
-);
+));
 
 interface MovieDetailsProps {
     movie: any; // Replace 'any' with the actual type if available
@@ -182,7 +187,7 @@ interface MovieDetailsProps {
     data: any; // Replace 'any' with the actual type if available
 }
 
-const MovieDetails: React.FC<MovieDetailsProps> = ({ movie, country, data }) => (
+const MovieDetails: React.FC<MovieDetailsProps> = memo(({ movie, country, data }) => (
     <View className="p-4 flex-row flex-wrap items-center">
         <TTextLight className="rounded-lg bg-neutral-500/10 p-2 mr-2">
             Posted: {movie?.postedAt}
@@ -195,13 +200,13 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ movie, country, data }) => 
         </TTextLight>
         {country && <CountryFlag country={country} />}
     </View>
-);
+));
 
 interface GenreListProps {
     data: any; // Replace 'any' with the actual type if available
 }
 
-const GenreList: React.FC<GenreListProps> = ({ data }) => (
+const GenreList: React.FC<GenreListProps> = memo(({ data }) => (
     <View className='mx-4'>
         <TTextLighter className='font-semibold text-sm mb-3'>Genre</TTextLighter>
         <View className='flex-row'>
@@ -212,13 +217,13 @@ const GenreList: React.FC<GenreListProps> = ({ data }) => (
             ))}
         </View>
     </View>
-);
+));
 
 interface ReferenceListProps {
     data: any; // Replace 'any' with the actual type if available
 }
 
-const ReferenceList: React.FC<ReferenceListProps> = ({ data }) => (
+const ReferenceList: React.FC<ReferenceListProps> = memo(({ data }) => (
     <View className='mx-4'>
         <TTextLighter className='font-semibold text-sm mb-3'>References</TTextLighter>
         <View className='flex-row flex-wrap'>
@@ -227,7 +232,7 @@ const ReferenceList: React.FC<ReferenceListProps> = ({ data }) => (
             ))}
         </View>
     </View>
-);
+));
 
 interface TabNavigationProps {
     tabIndex: number;
@@ -235,7 +240,7 @@ interface TabNavigationProps {
     data: any; // Replace 'any' with the actual type if available
 }
 
-const TabNavigation: React.FC<TabNavigationProps> = ({ tabIndex, setTabIndex, data }) => (
+const TabNavigation: React.FC<TabNavigationProps> = memo(({ tabIndex, setTabIndex, data }) => (
     <View className='my-4'>
         <View className='mb-3 flex-row'>
             {["Related", "Cast"].map((item, i) => {
@@ -255,5 +260,5 @@ const TabNavigation: React.FC<TabNavigationProps> = ({ tabIndex, setTabIndex, da
             </View>
                 : null}
     </View>
-);
+));
 

@@ -1,6 +1,6 @@
 
-import { View, Text, PressableProps, Pressable } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { Pressable, PressableProps } from 'react-native';
 import Animated, { AnimatedProps, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)

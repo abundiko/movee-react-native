@@ -8,7 +8,7 @@ export const paths = {
     saved: "/home/saved",
     
     singleMovie: (id:string)=>`/movies/${id}`,
-    singleMovieStream: (id:string)=>`/movies/${id}/stream`,
+    singleMovieStream: (id:string)=>`/movies/${id}/stream` as any,
 
     settingsHistory: "/settings/history",
 
