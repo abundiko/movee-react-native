@@ -3,7 +3,7 @@ import { Movie } from '@/types'
 import { paths } from '@/utils'
 import { router } from 'expo-router'
 import React from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { TTextLight, TTextLighter } from '../Themed'
 
 export default function MovieCard(props: Movie) {
@@ -19,13 +19,16 @@ export default function MovieCard(props: Movie) {
                 setMovie(props);
                 router.push((paths.singleMovie(props.id) as any))
             }}
-            className='w-[45vw] py-4'>
+            className='w-[45vw] py-4 relative'>
             <>
                 <Image source={{
                     uri: props.imgUrl,
                 }}
-                    className='aspect-[3/4] rounded-lg w-full mb-2'
+                className='aspect-[3/4] rounded-lg w-full mb-2'
                 />
+                {props.movieType == 'Series' && 
+                <Text className='bg-dark/70 text-white px-3 py-1 rounded-md absolute top-6 left-2'>series</Text>
+                }
                 <TTextLight className='text-lg line-clamp-2'>{props.title}</TTextLight>
                 <View className="flex-row justify-between items-center mt-1">
                     <TTextLighter>{props.postedAt}</TTextLighter>

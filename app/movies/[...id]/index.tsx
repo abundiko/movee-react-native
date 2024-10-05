@@ -8,6 +8,7 @@ import { AppButton } from '@/components/ui';
 import { cls } from '@/constants';
 import { useAppTheme, useStorageSaved } from '@/hooks';
 import { useGlobalStore } from '@/state';
+import { Movie, MovieDetailed } from '@/types';
 import { paths } from '@/utils';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
@@ -18,7 +19,8 @@ import { WebView } from 'react-native-webview';
 
 
 export default function SingleMovie() {
-    const { id } = useLocalSearchParams();
+    const { id: _id } = useLocalSearchParams();
+    const id = useMemo(() => [_id].flat().join(''), [_id]);
     const { text } = useAppTheme();
     const { storedsaved, updatesaved } = useStorageSaved();
     const [tabIndex, setTabIndex] = useState(0);
@@ -39,6 +41,8 @@ export default function SingleMovie() {
     });
 
     if (!movie || !storedsaved) return null;
+    // console.log({datas:data});
+
 
     return (
         <AppScaffold
@@ -112,7 +116,10 @@ export default function SingleMovie() {
                 </TListView>
                 <GenreList data={data} />
                 <View className="bg-neutral-600/50 h-[1px] my-4" />
-                <ReferenceList data={data} />
+                {/* <ReferenceList data={data} /> */}
+                <View className="bg-neutral-600/50 h-[1px] my-4" />
+                <View className='rounded bg-red-500 h-40 w-40' />
+                <SeasonsView data={data} />
                 <View className="bg-neutral-600/50 h-[1px] my-4" />
                 <TabNavigation tabIndex={tabIndex} setTabIndex={setTabIndex} data={data} />
             </>}
@@ -261,4 +268,32 @@ const TabNavigation: React.FC<TabNavigationProps> = memo(({ tabIndex, setTabInde
                 : null}
     </View>
 ));
+
+const SeasonsView: React.FC<{ data: MovieDetailed }> = memo(({ data }) => {
+
+    console.log({ data });
+
+    if (!data.seriesDetails) return;
+    return (
+        <View className='my-4'>
+            <View className='mb-3 flex-row'>
+                {data.seriesDetails.seasons.map((item, i) => {
+                    return <TTextLighter key={i}
+                        onPress={() => item.urlId ? router.replace(paths.singleMovie(item.urlId) as any) : null}
+                        className={`font-semibold px-4 py-2 border-b-2 ${item.isCurrent ? "text-primary border-primary" : 'border-transparent'}`}>{item.num}</TTextLighter>
+                })}
+                <View className="mx-4">
+                    {data.seriesDetails.episodes.map((item, i) => {
+                        return <TTextLight key={i}
+                            onPress={() => item.urlId ? router.replace(paths.singleMovie(item.urlId) as any) : null}
+                            className={`rounded-lg  p-2 mr-2 ${item.isCurrent ? 'bg-primaryLight/20' : 'bg-neutral-500/10'}`}>
+                            {item.num}
+                        </TTextLight>
+                    })}
+                </View>
+            </View>
+
+        </View>
+    );
+})
 

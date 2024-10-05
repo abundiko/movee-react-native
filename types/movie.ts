@@ -7,7 +7,10 @@ export type Movie = {
     duration: string;
     rate: string;
     postedAt: string;
+    movieType: MovieType;
 };
+
+type MovieType = "Movie" | "Series"
 
 export type MovieMeta = {
     duration: string;
@@ -32,6 +35,10 @@ export type MovieDetailed = {
     imgUrl: string;
     title: string;
     desc: string;
+    seriesDetails?: {
+        seasons: EpisodeOrSeason[];
+        episodes: EpisodeOrSeason[];
+    }
     trailer: string;
     meta: MovieMeta;
     download: MovieDownloadLinks;
@@ -47,3 +54,9 @@ export type MovieDetailed = {
     };
 
 };
+
+export type EpisodeOrSeason = {
+    isCurrent: boolean,
+    num: string,
+    urlId?: string
+}

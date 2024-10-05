@@ -47,7 +47,8 @@
         {
           "initialOrientation": "POTRAIT"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true

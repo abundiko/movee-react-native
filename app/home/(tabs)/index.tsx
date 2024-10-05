@@ -20,7 +20,9 @@ export default function HomeScreen() {
   const { data, isLoading, isError, isRefetching, refetch } = useQuery({
     queryKey: [...(Object.values(args))],
     queryFn: async () => {
-      return await fetchMovies(args);
+      const res = await fetchMovies(args);
+      if (!res) throw new Error("Connection Error")
+      return res;
     }
   });
 
@@ -109,9 +111,9 @@ export default function HomeScreen() {
         />
       </View>
       {
-        isError 
-        ? <TTextLighter className="text-3xl p-4">Poor internet connection</TTextLighter>
-        : <HomeMovies movies={movies} />
+        isError
+          ? <TTextLighter className="text-3xl p-4">Poor internet connection. Pull down to retry</TTextLighter>
+          : <HomeMovies movies={movies} />
       }
     </AppScaffold>
   );
