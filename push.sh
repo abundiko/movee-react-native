@@ -6,5 +6,5 @@ git commit -m "$COMMIT_MESSAGE"
 
 git push origin dev
 
-eas update --branch dev --message "$COMMIT_MESSAGE"
+eas update --channel dev --message "$COMMIT_MESSAGE"
 
