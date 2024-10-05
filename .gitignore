@@ -24,4 +24,5 @@ shared/.git
 *.env
 .env
 
+android
 android/
