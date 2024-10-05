@@ -39,7 +39,7 @@ export default function Stream() {
         player={player}
         allowsFullscreen
         allowsPictureInPicture
-        className=' w-full h-full top-1/2 -translate-y-1/2 left-0 absolute m-auto'
+        className=' w-full h-full top-4 left-0 absolute m-auto justify-center items-center'
       />
       {
         !playing &&

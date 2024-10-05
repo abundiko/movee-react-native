@@ -1,10 +1,10 @@
 git add .
 
-COMMIT_MESSAGE="made some optimizations v1.0.002"
+COMMIT_MESSAGE="added series differentiator"
 
 git commit -m "$COMMIT_MESSAGE"
 
 git push origin dev
 
-eas update --branch preview --message "$COMMIT_MESSAGE"
+eas update --branch dev --message "$COMMIT_MESSAGE"
 

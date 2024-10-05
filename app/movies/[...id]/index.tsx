@@ -8,19 +8,20 @@ import { AppButton } from '@/components/ui';
 import { cls } from '@/constants';
 import { useAppTheme, useStorageSaved } from '@/hooks';
 import { useGlobalStore } from '@/state';
-import { Movie, MovieDetailed } from '@/types';
+import { MovieDetailed } from '@/types';
 import { paths } from '@/utils';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { router, useLocalSearchParams } from 'expo-router';
+import { useTailwind } from 'nativewind';
 import React, { memo, useMemo, useState } from 'react';
-import { Image, View } from 'react-native';
+import { Image, ScrollView, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 
 export default function SingleMovie() {
-    const { id: _id } = useLocalSearchParams();
-    const id = useMemo(() => [_id].flat().join(''), [_id]);
+    const { id: _id } = useLocalSearchParams();    
+    const id = useMemo(() => [_id].flat().join('/'), [_id]);
     const { text } = useAppTheme();
     const { storedsaved, updatesaved } = useStorageSaved();
     const [tabIndex, setTabIndex] = useState(0);
@@ -115,12 +116,11 @@ export default function SingleMovie() {
                     </TTextLighter>
                 </TListView>
                 <GenreList data={data} />
-                <View className="bg-neutral-600/50 h-[1px] my-4" />
-                {/* <ReferenceList data={data} /> */}
-                <View className="bg-neutral-600/50 h-[1px] my-4" />
-                <View className='rounded bg-red-500 h-40 w-40' />
+                <View className={`${cls.bg.opacified} h-[1px] my-4`} />
+                <ReferenceList data={data} />
+                <View className={`${cls.bg.opacified} h-[1px] my-4`} />
                 <SeasonsView data={data} />
-                <View className="bg-neutral-600/50 h-[1px] my-4" />
+                <View className={`${cls.bg.opacified} h-[1px] my-4`} />
                 <TabNavigation tabIndex={tabIndex} setTabIndex={setTabIndex} data={data} />
             </>}
         </AppScaffold>
@@ -150,7 +150,7 @@ const DownloadButtons: React.FC<DownloadButtonsProps> = ({ downloadSub, setDownl
                 <TTextLight>Download Subtitle</TTextLight>
             </FormButton>
         </View>
-        <View className='w-2' />
+        <View className='p-2' />
         <View className="flex-1">
             <FormButton
                 loading={downloadVideo}
@@ -172,8 +172,11 @@ interface MovieImageProps {
     movie: any; // Replace 'any' with the actual type if available
 }
 
-const MovieImage: React.FC<MovieImageProps> = memo(({ data, movie }) => (
-    <View className='relative aspect-[5/3]'>
+const MovieImage: React.FC<MovieImageProps> = memo(({ data, movie }) => {
+
+    
+    return (
+    <View className='relative w-full' style={{aspectRatio:5/3}}>
         <Image source={{
             uri: data?.imgUrl ?? movie?.imgUrl,
         }}
@@ -186,7 +189,7 @@ const MovieImage: React.FC<MovieImageProps> = memo(({ data, movie }) => (
             />}
         </View>
     </View>
-));
+)});
 
 interface MovieDetailsProps {
     movie: any; // Replace 'any' with the actual type if available
@@ -194,20 +197,23 @@ interface MovieDetailsProps {
     data: any; // Replace 'any' with the actual type if available
 }
 
-const MovieDetails: React.FC<MovieDetailsProps> = memo(({ movie, country, data }) => (
-    <View className="p-4 flex-row flex-wrap items-center">
-        <TTextLight className="rounded-lg bg-neutral-500/10 p-2 mr-2">
+const MovieDetails: React.FC<MovieDetailsProps> = memo(({ movie, country, data }) => {
+    
+
+    return (<View className="p-4 flex-row flex-wrap items-center">
+        <TTextLight className={`rounded-lg p-2 mr-2 ${cls.bg.opacified}`}>
             Posted: {movie?.postedAt}
         </TTextLight>
-        <TTextLight className="rounded-lg bg-neutral-500/10 p-2 mr-2">
+        <TTextLight className={`rounded-lg p-2 mr-2 ${cls.bg.opacified}`}>
             {movie?.duration.replace(/\s{2,}/g, ' ')}
         </TTextLight>
-        <TTextLight className="rounded-lg bg-neutral-500/10 p-2 mr-2">
+        <TTextLight className={`rounded-lg p-2 mr-2 ${cls.bg.opacified}`}>
             Rating: {movie?.rate}
         </TTextLight>
         {country && <CountryFlag country={country} />}
     </View>
-));
+    )
+});
 
 interface GenreListProps {
     data: any; // Replace 'any' with the actual type if available
@@ -218,7 +224,7 @@ const GenreList: React.FC<GenreListProps> = memo(({ data }) => (
         <TTextLighter className='font-semibold text-sm mb-3'>Genre</TTextLighter>
         <View className='flex-row'>
             {data.details.genre?.map((gen: any, i: number) => ( // Replace 'any' with the actual type if available
-                <TTextLight key={i} className="rounded-lg bg-neutral-500/10 p-2 mr-2">
+                <TTextLight key={i} className={`rounded-lg p-2 mr-2 ${cls.bg.opacified}`}>
                     {gen.name}
                 </TTextLight>
             ))}
@@ -254,13 +260,13 @@ const TabNavigation: React.FC<TabNavigationProps> = memo(({ tabIndex, setTabInde
                 const isActive = tabIndex === i;
                 return <TTextLighter key={i}
                     onPress={() => setTabIndex(i)}
-                    className={`font-semibold px-4 py-2 border-b-2 ${isActive ? "text-primary border-primary" : 'border-transparent'}`}>{item}</TTextLighter>
+                    className={`font-semibold px-4 py-2 border-b ${isActive ? "text-primary border-primary" : 'border-transparent'}`}>{item}</TTextLighter>
             })}
         </View>
         {tabIndex === 0 ? <HomeMovies movies={data.related} />
             : tabIndex === 1 ? <View className='flex-row flex-wrap p-4'>
                 {data.details.cast?.map((cast: any, i: number) => ( // Replace 'any' with the actual type if available
-                    <TTextLight key={i} className="rounded-lg bg-neutral-500/10 p-2 mr-2 mb-2">
+                    <TTextLight key={i} className={`rounded-lg ${cls.bg.opacified} p-2 mr-2 mb-2`}>
                         {cast.name}
                     </TTextLight>
                 ))}
@@ -270,24 +276,40 @@ const TabNavigation: React.FC<TabNavigationProps> = memo(({ tabIndex, setTabInde
 ));
 
 const SeasonsView: React.FC<{ data: MovieDetailed }> = memo(({ data }) => {
-
-    console.log({ data });
-
+    const { movie, setMovie } = useGlobalStore();
+  
     if (!data.seriesDetails) return;
+    const currentSeason = data.seriesDetails.seasons.find(i => i.isCurrent);
     return (
-        <View className='my-4'>
-            <View className='mb-3 flex-row'>
-                {data.seriesDetails.seasons.map((item, i) => {
-                    return <TTextLighter key={i}
-                        onPress={() => item.urlId ? router.replace(paths.singleMovie(item.urlId) as any) : null}
-                        className={`font-semibold px-4 py-2 border-b-2 ${item.isCurrent ? "text-primary border-primary" : 'border-transparent'}`}>{item.num}</TTextLighter>
-                })}
-                <View className="mx-4">
+        <View className='my-0'>
+            <View className='mb-3'>
+               <ScrollView
+               horizontal
+               >
+               <View className="flex-row mb-2">
+                    {data.seriesDetails.seasons.map((item, i) => {
+                        return <TTextLighter key={i}
+                            onPress={() => {
+                                if (item.urlId) {
+                                    setMovie({ ...movie!, duration: `S${item.num}E01`, postedAt: data.meta.posted, rate: data.meta.rate })
+                                    router.replace(paths.singleMovie(item.urlId) as any)
+                                }
+                            }}
+                            className={`font-semibold px-4 py-2 border-b ${item.isCurrent ? "text-primary border-primary" : 'border-transparent'}`}>Season {item.num}</TTextLighter>
+                    })}
+                </View>
+               </ScrollView>
+                <View className="mx-4 flex-row flex-wrap">
                     {data.seriesDetails.episodes.map((item, i) => {
                         return <TTextLight key={i}
-                            onPress={() => item.urlId ? router.replace(paths.singleMovie(item.urlId) as any) : null}
-                            className={`rounded-lg  p-2 mr-2 ${item.isCurrent ? 'bg-primaryLight/20' : 'bg-neutral-500/10'}`}>
-                            {item.num}
+                            onPress={() => {
+                                if (item.urlId) {
+                                    setMovie({ ...movie!, duration: `S${currentSeason?.num}E${item.num}`, postedAt: data.meta.posted, rate: data.meta.rate })
+                                    router.replace(paths.singleMovie(item.urlId) as any)
+                                }
+                            }}
+                            className={`rounded-lg  p-2 mr-2 mb-2 ${item.isCurrent ? 'text-primary bg-white dark:bg-black' : cls.bg.opacified}`}>
+                            Ep. {item.num}
                         </TTextLight>
                     })}
                 </View>

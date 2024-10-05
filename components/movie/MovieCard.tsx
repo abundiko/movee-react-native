@@ -29,7 +29,7 @@ export default function MovieCard(props: Movie) {
                 {props.movieType == 'Series' && 
                 <Text className='bg-dark/70 text-white px-3 py-1 rounded-md absolute top-6 left-2'>series</Text>
                 }
-                <TTextLight className='text-lg line-clamp-2'>{props.title}</TTextLight>
+                <TTextLight className='text-lg'>{props.title}</TTextLight>
                 <View className="flex-row justify-between items-center mt-1">
                     <TTextLighter>{props.postedAt}</TTextLighter>
                     <TTextLighter>{props.year}</TTextLighter>

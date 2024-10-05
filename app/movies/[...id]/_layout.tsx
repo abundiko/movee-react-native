@@ -8,7 +8,7 @@ export default function MoviesLayout() {
     return (
         <Stack screenOptions={{ headerShown: false }}>
             {
-                ['index'].map(i => (
+                ['index', 'stream'].map(i => (
                     <Stack.Screen name={i} key={i} options={{
                         headerShown: false,
                         orientation: i == 'stream' ? "landscape" : undefined
