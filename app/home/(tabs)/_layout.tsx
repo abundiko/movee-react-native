@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text, View } from "react-native";
 import { useAppTheme } from "@/hooks";
 import Color from "color";
 
@@ -42,6 +42,7 @@ export default function _layout() {
         tabBarShowLabel: false,
         headerShown: false,
       }}
+      
     >
       {tabs.map((tab) => {
         return (
@@ -85,7 +86,8 @@ export default function _layout() {
 const styles = StyleSheet.create({
   tabBarStyle: {
     elevation: 0,
-    height: 80,
+    display: Platform.OS == 'web' ? 'none' : undefined,
+    height: Platform.OS == 'web' ? 0 : 80,
     shadowColor: "#00000033",
     shadowRadius: 10,
     padding: 16,

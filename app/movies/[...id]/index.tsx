@@ -13,20 +13,20 @@ import { paths } from '@/utils';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useTailwind } from 'nativewind';
 import React, { memo, useMemo, useState } from 'react';
-import { Image, ScrollView, View } from 'react-native';
+import { Dimensions, Image, Platform, ScrollView, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 
 export default function SingleMovie() {
-    const { id: _id } = useLocalSearchParams();    
+    const { id: _id } = useLocalSearchParams();
     const id = useMemo(() => [_id].flat().join('/'), [_id]);
     const { text } = useAppTheme();
     const { storedsaved, updatesaved } = useStorageSaved();
     const [tabIndex, setTabIndex] = useState(0);
     const [downloadVideo, setDownloadVideo] = useState(false);
     const [downloadSub, setDownloadSub] = useState(false);
+    const { width } = Dimensions.get('window')
 
     const setStream = useGlobalStore(s => s.setStream);
     const mv = useGlobalStore(s => s.movie);
@@ -70,7 +70,7 @@ export default function SingleMovie() {
                 // <></>
             }
             underBody={
-                <DownloadButtons
+                width <= 768 && <DownloadButtons
                     downloadSub={downloadSub}
                     setDownloadSub={setDownloadSub}
                     downloadVideo={downloadVideo}
@@ -94,6 +94,7 @@ export default function SingleMovie() {
                     }
                 }} />}
             {downloadVideo && <WebView
+
                 className='h-0 bg-red-300'
                 onError={() => {
                     setDownloadVideo(false);
@@ -107,18 +108,38 @@ export default function SingleMovie() {
                         'Content-Type': "video/x-matroska"
                     }
                 }} />}
-            <MovieImage data={data} movie={movie} />
-            <MovieDetails movie={movie} country={country} data={data} />
+            <View className={`${width > 768 ? "flex-row p-2 gap-x-4" : 'flex-col'}`}>
+                <View className={`${width > 768 ? "flex-1" : ''}`}>
+                    <MovieImage data={data} movie={movie} />
+                    {width > 768 &&
+                        <>
+                            <View className='py-2' />
+                            <DownloadButtons
+                                downloadSub={downloadSub}
+                                setDownloadSub={setDownloadSub}
+                                downloadVideo={downloadVideo}
+                                setDownloadVideo={setDownloadVideo}
+                                data={data}
+                            />
+                        </>
+                    }
+                </View>
+                <View className={`${width > 768 ? "flex-1" : ''}`}>
+                    <MovieDetails movie={movie} country={country} data={data} />
+                    {!!data && <>
+                        <TListView>
+                            <TTextLighter>
+                                {data.desc}
+                            </TTextLighter>
+                        </TListView>
+                        <GenreList data={data} />
+                        <View className={`${cls.bg.opacified} h-[1px] my-4`} />
+                        <ReferenceList data={data} />
+                        <View className={`${cls.bg.opacified} h-[1px] my-4`} />
+                    </>}
+                </View>
+            </View>
             {!!data && <>
-                <TListView>
-                    <TTextLighter>
-                        {data.desc}
-                    </TTextLighter>
-                </TListView>
-                <GenreList data={data} />
-                <View className={`${cls.bg.opacified} h-[1px] my-4`} />
-                <ReferenceList data={data} />
-                <View className={`${cls.bg.opacified} h-[1px] my-4`} />
                 <SeasonsView data={data} />
                 <View className={`${cls.bg.opacified} h-[1px] my-4`} />
                 <TabNavigation tabIndex={tabIndex} setTabIndex={setTabIndex} data={data} />
@@ -174,22 +195,33 @@ interface MovieImageProps {
 
 const MovieImage: React.FC<MovieImageProps> = memo(({ data, movie }) => {
 
-    
+
     return (
-    <View className='relative w-full' style={{aspectRatio:5/3}}>
-        <Image source={{
-            uri: data?.imgUrl ?? movie?.imgUrl,
-        }}
-            className='h-full rounded-lg w-full mb-2'
-        />
-        <View className='absolute p-4 top-0 left-0 w-full h-full bg-light/80 dark:bg-dark/80'>
-            {!!data && <WebView
-                allowsFullscreenVideo
-                source={{ uri: `https://movee.vercel.app/iframe/${data?.trailer}` }}
-            />}
+        <View className='relative w-full' style={{ aspectRatio: 5 / 3 }}>
+            <Image source={{
+                uri: data?.imgUrl ?? movie?.imgUrl,
+            }}
+                className='h-full rounded-lg w-full mb-2'
+            />
+            <View className='absolute p-4 top-0 left-0 w-full h-full bg-light/80 dark:bg-dark/80'>
+                {!!data && (
+                    Platform.OS == 'web' ?
+                        <iframe 
+                        style={{
+                            height: 300
+                        }}
+                        className="w-screen h-[300px]" src={`https://www.youtube.com/embed/${data.trailer}`} 
+                        title="YouTube video player" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+                        :
+                        <WebView
+                            allowsFullscreenVideo
+                            source={{ uri: `https://movee.vercel.app/iframe/${data?.trailer}` }}
+                        />)}
+            </View>
         </View>
-    </View>
-)});
+    )
+});
 
 interface MovieDetailsProps {
     movie: any; // Replace 'any' with the actual type if available
@@ -198,7 +230,7 @@ interface MovieDetailsProps {
 }
 
 const MovieDetails: React.FC<MovieDetailsProps> = memo(({ movie, country, data }) => {
-    
+
 
     return (<View className="p-4 flex-row flex-wrap items-center">
         <TTextLight className={`rounded-lg p-2 mr-2 ${cls.bg.opacified}`}>
@@ -277,28 +309,28 @@ const TabNavigation: React.FC<TabNavigationProps> = memo(({ tabIndex, setTabInde
 
 const SeasonsView: React.FC<{ data: MovieDetailed }> = memo(({ data }) => {
     const { movie, setMovie } = useGlobalStore();
-  
+
     if (!data.seriesDetails) return;
     const currentSeason = data.seriesDetails.seasons.find(i => i.isCurrent);
     return (
         <View className='my-0'>
             <View className='mb-3'>
-               <ScrollView
-               horizontal
-               >
-               <View className="flex-row mb-2">
-                    {data.seriesDetails.seasons.map((item, i) => {
-                        return <TTextLighter key={i}
-                            onPress={() => {
-                                if (item.urlId) {
-                                    setMovie({ ...movie!, duration: `S${item.num}E01`, postedAt: data.meta.posted, rate: data.meta.rate })
-                                    router.replace(paths.singleMovie(item.urlId) as any)
-                                }
-                            }}
-                            className={`font-semibold px-4 py-2 border-b ${item.isCurrent ? "text-primary border-primary" : 'border-transparent'}`}>Season {item.num}</TTextLighter>
-                    })}
-                </View>
-               </ScrollView>
+                <ScrollView
+                    horizontal
+                >
+                    <View className="flex-row mb-2">
+                        {data.seriesDetails.seasons.map((item, i) => {
+                            return <TTextLighter key={i}
+                                onPress={() => {
+                                    if (item.urlId) {
+                                        setMovie({ ...movie!, duration: `S${item.num}E01`, postedAt: data.meta.posted, rate: data.meta.rate })
+                                        router.replace(paths.singleMovie(item.urlId) as any)
+                                    }
+                                }}
+                                className={`font-semibold px-4 py-2 border-b ${item.isCurrent ? "text-primary border-primary" : 'border-transparent'}`}>Season {item.num}</TTextLighter>
+                        })}
+                    </View>
+                </ScrollView>
                 <View className="mx-4 flex-row flex-wrap">
                     {data.seriesDetails.episodes.map((item, i) => {
                         return <TTextLight key={i}

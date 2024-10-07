@@ -24,7 +24,7 @@ export const cls = {
       buttonClass + "py-4 rounded-[20px] bg-secondary/20 border-secondary",
     secondaryBorderClass: buttonClass + "py-4 rounded-[20px] border-secondary",
     iconClass: "h-10 w-10 rounded-lg items-center justify-center",
-    selectClass: "px-4 py-2.5 rounded-[30px] bg-primary/20 flex-row items-center"
+    selectClass: "px-3 py-2 rounded-[30px] bg-primary/20 flex-row items-center"
   },
   input: {
     className:

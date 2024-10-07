@@ -26,7 +26,7 @@ export default function Welcome() {
           colors={['#ff343400', bg]}
         />
       </View>
-      <View className="flex-1 p-4 justify-end max-w-[700px] mx-auto">
+      <View className="flex-1 p-4 justify-end max-w-[700px] mx-auto md:mb-20">
         <TText className="font-[500] text-4xl mb-2 leading-tight">
           We both know you are here to watch movies completely free, what are you still waiting for?!
         </TText>

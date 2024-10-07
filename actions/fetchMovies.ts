@@ -10,12 +10,15 @@ export type FetchMoviesParams = {
     "country[]"?: string;
     "genre[]"?: string;
     "year[]"?: string;
+    "type"?: string;
 }
 
 export async function fetchMovies(params: FetchMoviesParams): Promise<Movie[] | null> {
-    console.log(params);
+    // console.log(params);
 
     try {
+        // console.log(BACKEND_HOST + "/movies" + buildUrlQuery(params));
+        
         const req = await fetch(BACKEND_HOST + "/movies" + buildUrlQuery(params));
         const res = await req.json();
         // console.log({ res });
@@ -23,6 +26,8 @@ export async function fetchMovies(params: FetchMoviesParams): Promise<Movie[] | 
         if (!res.success) throw new Error("")
         return res.data as Movie[]
     } catch (error) {
+        console.error(error);
+        
         return null;
     }
 }

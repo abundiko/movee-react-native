@@ -38,7 +38,8 @@ export default function AppScaffold({
         {
           noScroll ? children :
             <ScrollView
-              {...scrollProps}
+            {...scrollProps}
+            scrollEventThrottle={30}
               refreshControl={
                 <RefreshControl
                   refreshing={false} // Use refreshing state

@@ -4,13 +4,13 @@ import { AppSelect, SearchInput } from "@/components/formComponents";
 import { HomeMovies } from "@/components/home";
 import { AppScaffold } from "@/components/layout";
 import { TTextLight, TTextLighter } from "@/components/Themed";
-import { AppButton, Message } from "@/components/ui";
-import { cls, COUNTRIES, GENRES } from "@/constants";
+import { AppButton } from "@/components/ui";
+import { cls, COUNTRIES, GENRES, MOVIE_TYPES } from "@/constants";
 import { year1999TillDate } from "@/functions/date";
 import { Movie } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
-import { NativeScrollEvent, NativeSyntheticEvent, View } from "react-native";
+import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, View } from "react-native";
 
 export default function HomeScreen() {
   const [args, setArgs] = useState<FetchMoviesParams>({});
@@ -19,6 +19,8 @@ export default function HomeScreen() {
   const [hasMore, setHasMore] = useState(true);
   const { data, isLoading, isError, isRefetching, refetch } = useQuery({
     queryKey: [...(Object.values(args))],
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
     queryFn: async () => {
       const res = await fetchMovies(args);
       if (!res) throw new Error("Connection Error")
@@ -73,43 +75,56 @@ export default function HomeScreen() {
         </View>
       }
     >
-      <View className="flex-row px-4">
-        <AppSelect
-          label="Select Year"
-          options={years}
-          value={years[0]}
-          snapPoints={['70%', "70%"]}
-          scrollable
-          onChange={(value) => setArgs(old => ({ ...old, "year[]": value.value, page: 1 }))}
-          renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
-            <TTextLight>{value.title}</TTextLight>
-          </AppButton>)}
-        />
-        <View className="px-1" />
-        <AppSelect
-          label="Select Genre"
-          options={GENRES}
-          value={GENRES[0]}
-          snapPoints={['70%', "70%"]}
-          scrollable
-          onChange={(value) => setArgs(old => ({ ...old, "genre[]": value.value, page: 1 }))}
-          renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
-            <TTextLight>{value.title}</TTextLight>
-          </AppButton>)}
-        />
-        <View className="px-1" />
-        <AppSelect
-          label="Select Country"
-          options={COUNTRIES}
-          value={COUNTRIES[0]}
-          snapPoints={['70%', "70%"]}
-          scrollable
-          onChange={(value) => setArgs(old => ({ ...old, "country[]": value.value, page: 1 }))}
-          renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
-            <TTextLight>{value.title}</TTextLight>
-          </AppButton>)}
-        />
-      </View>
+      <ScrollView horizontal>
+        <View className="flex-row px-4">
+          <AppSelect
+            label="Select Type"
+            options={MOVIE_TYPES}
+            value={MOVIE_TYPES[0]}
+            snapPoints={['50%', "50%"]}
+            onChange={(value) => setArgs(old => ({ ...old, "type": value.value, page: 1, }))}
+            renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
+              <TTextLight>{value.title}</TTextLight>
+            </AppButton>)}
+          />
+          <View className="px-1" />
+          <AppSelect
+            label="Select Year"
+            options={years}
+            value={years[0]}
+            snapPoints={['70%', "70%"]}
+            scrollable
+            onChange={(value) => setArgs(old => ({ ...old, "year[]": value.value, page: 1 }))}
+            renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
+              <TTextLight>{value.title}</TTextLight>
+            </AppButton>)}
+          />
+          <View className="px-1" />
+          <AppSelect
+            label="Select Genre"
+            options={GENRES}
+            value={GENRES[0]}
+            snapPoints={['70%', "70%"]}
+            scrollable
+            onChange={(value) => setArgs(old => ({ ...old, "genre[]": value.value, page: 1 }))}
+            renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
+              <TTextLight>{value.title}</TTextLight>
+            </AppButton>)}
+          />
+          <View className="px-1" />
+          <AppSelect
+            label="Select Country"
+            options={COUNTRIES}
+            value={COUNTRIES[0]}
+            snapPoints={['70%', "70%"]}
+            scrollable
+            onChange={(value) => setArgs(old => ({ ...old, "country[]": value.value, page: 1 }))}
+            renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
+              <TTextLight>{value.title}</TTextLight>
+            </AppButton>)}
+          />
+        </View>
+      </ScrollView>
       {
         isError
           ? <TTextLighter className="text-3xl p-4">Poor internet connection. Pull down to retry</TTextLighter>

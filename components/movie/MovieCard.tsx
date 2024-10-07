@@ -19,7 +19,7 @@ export default function MovieCard(props: Movie) {
                 setMovie(props);
                 router.push((paths.singleMovie(props.id) as any))
             }}
-            className='w-[45vw] py-4 relative'>
+            className='w-[45vw] sm:w-[200] lg:w-[220]  py-4 relative'>
             <>
                 <Image source={{
                     uri: props.imgUrl,

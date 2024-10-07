@@ -14,6 +14,7 @@ export async function fetchSingleMovie(id: string): Promise<MovieDetailed | null
         if (!res.success) throw new Error("")
         return res.data as MovieDetailed
     } catch (error) {
+        console.error(error);
         return null;
     }
 }

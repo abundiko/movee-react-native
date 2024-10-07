@@ -16,10 +16,10 @@
     },
     "preview": {
       "distribution": "internal",
-      "channel": "dev"
+      "channel": "preview"
     },
     "production": {
-      "channel": "dev"
+      "channel": "production"
     }
   },
   "submit": {
