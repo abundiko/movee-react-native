@@ -54,7 +54,7 @@ export default function SingleMovie() {
                     {data && <AppButton
                         onPress={() => {
                             setStream(data?.download.video + "?redirect=true");
-                            router.push(paths.singleMovieStream(movie.id))
+                            router.push(paths.singleMovieStream as any)
                         }}
                     ><Ionicons name={"play"} size={24} color={text} />
                     </AppButton>}
@@ -206,13 +206,13 @@ const MovieImage: React.FC<MovieImageProps> = memo(({ data, movie }) => {
             <View className='absolute p-4 top-0 left-0 w-full h-full bg-light/80 dark:bg-dark/80'>
                 {!!data && (
                     Platform.OS == 'web' ?
-                        <iframe 
-                        style={{
-                            height: 300
-                        }}
-                        className="w-screen h-[300px]" src={`https://www.youtube.com/embed/${data.trailer}`} 
-                        title="YouTube video player" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+                        <iframe
+                            style={{
+                                height: 300
+                            }}
+                            className="w-screen h-[300px]" src={`https://www.youtube.com/embed/${data.trailer}`}
+                            title="YouTube video player"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
                         :
                         <WebView
                             allowsFullscreenVideo
