@@ -1,16 +1,11 @@
 
 
-import { isRunningInExpoGo } from 'expo'
-import { Stack } from 'expo-router'
-import React, { useMemo } from 'react'
+import { Stack } from 'expo-router';
+import React from 'react';
 
 export default function MoviesLayout() {
 
-    const screens = useMemo(() => {
-        let list = ["index"];
-        if (!isRunningInExpoGo) list.push('stream')
-        return list;
-    }, [])
+    const screens = ['index', 'stream']
 
 
     return (

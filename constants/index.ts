@@ -6,7 +6,7 @@ export { AppTheme } from "./AppTheme";
 export const isRunningInExpoGo = Constants.appOwnership === 'expo'
 
 export const BACKEND_HOST = process.env.EXPO_PUBLIC_WEBSITE_URL ?? "https://movee.vercel.app/api/v2"
-export const APP_VERSION = process.env.VERSION ?? "1.0.003"
+export const APP_VERSION = process.env.VERSION ?? "1.0.004"
 
 export const MOVIE_TYPES = [
   {title: "Movies and Series", value: ""},

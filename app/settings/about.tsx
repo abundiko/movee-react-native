@@ -1,7 +1,7 @@
 import { AppScaffold } from '@/components/layout'
 import { TText, TTextLight, TTextLighter } from '@/components/Themed'
 import { AppButton } from '@/components/ui'
-import { APP_VERSION } from '@/constants'
+import { APP_VERSION, isRunningInExpoGo } from '@/constants'
 import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { Image, Linking, View } from 'react-native'
@@ -17,7 +17,7 @@ export default function AboutScreen() {
                 />
                 <TText className='text-3xl mt-4'>Movee</TText>
                 <TTextLight className='text-sm mt-3 font-semibold'>Designed and developed by abundiko</TTextLight>
-                <TTextLighter className='text-sm mt-3'>version {APP_VERSION}</TTextLighter>
+                <TTextLighter className='text-sm mt-3'>version {APP_VERSION} {isRunningInExpoGo}</TTextLighter>
                 <View className='flex-row mt-10 gap-x-4'>
                     <AppButton
                     className={"bg-black rounded-3xl p-4"}
