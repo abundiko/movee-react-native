@@ -1,6 +1,6 @@
 git add .
 
-COMMIT_MESSAGE="fixed stream screen not showing 1.0.005"
+COMMIT_MESSAGE="made home filter tabs dynamic, made optimisations to movie screen. TESTING: video playback continue from last stop 1.0.006"
 
 git commit -m "$COMMIT_MESSAGE"
 

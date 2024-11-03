@@ -1,6 +1,6 @@
 import { TBgPureView } from '@/components/Themed'
 import { AppButton } from '@/components/ui'
-import { useAppTheme } from '@/hooks'
+import { useAppTheme, useStoredMovies } from '@/hooks'
 import { useGlobalStore } from '@/state'
 import { Ionicons } from '@expo/vector-icons'
 import { router } from 'expo-router'
@@ -11,7 +11,9 @@ import { StyleSheet } from 'react-native'
 export default function Stream() {
   const videoSource = useGlobalStore(s => s.stream)
   const [playing, setPlaying] = useState(false);
+  const [hasSeeked, setHasSeeked] = useState(false);
   const { text } = useAppTheme();
+  const { setData: updateStoredMovies, data: storedMovies } = useStoredMovies()
 
   const ref = useRef<VideoView>(null);
   const player = useVideoPlayer(videoSource, player => {
@@ -28,6 +30,24 @@ export default function Stream() {
       subscription.remove();
     };
   }, [player]);
+
+  useEffect(() => {
+    if (!playing) return;
+    const int = setInterval(() => {
+      const currentTime = player.currentTime;
+      updateStoredMovies(v => ({ ...v, [videoSource]: currentTime }))
+    }, 5000)
+
+    return clearInterval(int);
+  }, [playing]);
+
+  useEffect(() => {
+    if (!playing || hasSeeked) return;
+
+    player.seekBy(storedMovies ? storedMovies[videoSource] : 0)
+    setHasSeeked(true);
+
+  }, [playing, hasSeeked]);
 
 
   return (

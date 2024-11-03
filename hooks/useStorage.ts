@@ -3,6 +3,7 @@ import { tags } from "@/utils";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ColorSchemeSystem } from "nativewind/dist/style-sheet/color-scheme";
+import { useSession } from "./useSession";
 
 
 
@@ -83,3 +84,10 @@ export function useStorageTheme() {
   }
 }
 
+export function useStoredMovies() {
+  const res = useSession<{[key:string]:number}>(tags.storedMovies, {
+    defaultValue: {},
+    jsonSerialize: true,
+  });
+  return { storedSettings: res.data, setStoredSettings: res.setData, ...res };
+}

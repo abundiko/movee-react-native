@@ -14,6 +14,7 @@ export type AppScaffoldProps = AppBarProps & {
   refreshing?: boolean;
   onRefresh?: () => void;
   scrollProps?: ScrollViewProps;
+  
 };
 
 export default function AppScaffold({

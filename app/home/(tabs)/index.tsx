@@ -52,8 +52,12 @@ export default function HomeScreen() {
 
   }
 
+  const [lastY, setLastY] = useState(0);
+  const [showTabs, setShowTabs] = useState(true);
+
   return (
     <AppScaffold
+      noScroll
       appbarHeight={40}
       title={
         "Movee"
@@ -75,61 +79,79 @@ export default function HomeScreen() {
         </View>
       }
     >
-      <ScrollView horizontal>
-        <View className="flex-row px-4">
-          <AppSelect
-            label="Select Type"
-            options={MOVIE_TYPES}
-            value={MOVIE_TYPES[0]}
-            snapPoints={['50%', "50%"]}
-            onChange={(value) => setArgs(old => ({ ...old, "type": value.value, page: 1, }))}
-            renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
-              <TTextLight>{value.title}</TTextLight>
-            </AppButton>)}
-          />
-          <View className="px-1" />
-          <AppSelect
-            label="Select Year"
-            options={years}
-            value={years[0]}
-            snapPoints={['70%', "70%"]}
-            scrollable
-            onChange={(value) => setArgs(old => ({ ...old, "year[]": value.value, page: 1 }))}
-            renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
-              <TTextLight>{value.title}</TTextLight>
-            </AppButton>)}
-          />
-          <View className="px-1" />
-          <AppSelect
-            label="Select Genre"
-            options={GENRES}
-            value={GENRES[0]}
-            snapPoints={['70%', "70%"]}
-            scrollable
-            onChange={(value) => setArgs(old => ({ ...old, "genre[]": value.value, page: 1 }))}
-            renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
-              <TTextLight>{value.title}</TTextLight>
-            </AppButton>)}
-          />
-          <View className="px-1" />
-          <AppSelect
-            label="Select Country"
-            options={COUNTRIES}
-            value={COUNTRIES[0]}
-            snapPoints={['70%', "70%"]}
-            scrollable
-            onChange={(value) => setArgs(old => ({ ...old, "country[]": value.value, page: 1 }))}
-            renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
-              <TTextLight>{value.title}</TTextLight>
-            </AppButton>)}
-          />
-        </View>
-      </ScrollView>
-      {
-        isError
-          ? <TTextLighter className="text-3xl p-4">Poor internet connection. Pull down to retry</TTextLighter>
-          : <HomeMovies movies={movies} />
-      }
+      <View className={`py-2 absolute z-20 bg-light dark:bg-dark ${showTabs ? '' : 'h-0'} `}>
+        <ScrollView horizontal
+        showsHorizontalScrollIndicator={false}
+        >
+          <View className="flex-row px-4">
+            <AppSelect
+              label="Select Type"
+              options={MOVIE_TYPES}
+              value={MOVIE_TYPES[0]}
+              snapPoints={['50%', "50%"]}
+              onChange={(value) => setArgs(old => ({ ...old, "type": value.value, page: 1, }))}
+              renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
+                <TTextLight>{value.title}</TTextLight>
+              </AppButton>)}
+            />
+            <View className="px-1" />
+            <AppSelect
+              label="Select Year"
+              options={years}
+              value={years[0]}
+              snapPoints={['70%', "70%"]}
+              scrollable
+              onChange={(value) => setArgs(old => ({ ...old, "year[]": value.value, page: 1 }))}
+              renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
+                <TTextLight>{value.title}</TTextLight>
+              </AppButton>)}
+            />
+            <View className="px-1" />
+            <AppSelect
+              label="Select Genre"
+              options={GENRES}
+              value={GENRES[0]}
+              snapPoints={['70%', "70%"]}
+              scrollable
+              onChange={(value) => setArgs(old => ({ ...old, "genre[]": value.value, page: 1 }))}
+              renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
+                <TTextLight>{value.title}</TTextLight>
+              </AppButton>)}
+            />
+            <View className="px-1" />
+            <AppSelect
+              label="Select Country"
+              options={COUNTRIES}
+              value={COUNTRIES[0]}
+              snapPoints={['70%', "70%"]}
+              scrollable
+              onChange={(value) => setArgs(old => ({ ...old, "country[]": value.value, page: 1 }))}
+              renderButton={(value) => (<AppButton className={cls.btn.selectClass}>
+                <TTextLight>{value.title}</TTextLight>
+              </AppButton>)}
+            />
+          </View>
+        </ScrollView>
+      </View>
+      <View className="flex-1">
+        {
+          isError
+            ? <TTextLighter className="text-3xl p-4">Poor internet connection. Pull down to retry</TTextLighter>
+            : <ScrollView
+              onScroll={(ev) => {
+                const offset = ev.nativeEvent.contentOffset.y;
+                if (offset < lastY) {
+                  setShowTabs(true);
+                } else {
+                  setShowTabs(false)
+                }
+                setLastY(offset);
+              }}
+            >
+              <View className="h-8"></View>
+              <HomeMovies movies={movies} /></ScrollView>
+        }
+      </View>
     </AppScaffold>
   );
 }

@@ -13,19 +13,28 @@ import { paths } from '@/utils';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { router, useLocalSearchParams } from 'expo-router';
-import React, { memo, useMemo, useState } from 'react';
-import { Dimensions, Image, Platform, ScrollView, View } from 'react-native';
+import React, { memo, useEffect, useMemo, useState } from 'react';
+import { Dimensions, Image, Linking, Platform, ScrollView, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 
 export default function SingleMovie() {
+    const [ready, setReady] = useState(false);
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setReady(true)
+        }, 500)
+
+        return () => {
+            clearTimeout(timeout);
+        }
+    }, []);
+
     const { id: _id } = useLocalSearchParams();
     const id = useMemo(() => [_id].flat().join('/'), [_id]);
     const { text } = useAppTheme();
     const { storedsaved, updatesaved } = useStorageSaved();
     const [tabIndex, setTabIndex] = useState(0);
-    const [downloadVideo, setDownloadVideo] = useState(false);
-    const [downloadSub, setDownloadSub] = useState(false);
     const { width } = Dimensions.get('window')
 
     const setStream = useGlobalStore(s => s.setStream);
@@ -45,6 +54,8 @@ export default function SingleMovie() {
     // console.log({datas:data});
 
 
+    if (!ready) return <AppScaffold
+        title={data?.title ?? movie?.title} refreshing={true} />
     return (
         <AppScaffold
             title={data?.title ?? movie?.title}
@@ -70,55 +81,19 @@ export default function SingleMovie() {
                 // <></>
             }
             underBody={
-                width <= 768 && <DownloadButtons
-                    downloadSub={downloadSub}
-                    setDownloadSub={setDownloadSub}
-                    downloadVideo={downloadVideo}
-                    setDownloadVideo={setDownloadVideo}
+                width <= 768 && data && <DownloadButtons
                     data={data}
                 />
             }
         >
-            {downloadSub && <WebView
-                className='h-0 bg-red-300'
-                onError={() => {
-                    setDownloadSub(false);
-                }}
-                onFileDownload={() => {
-                    console.log('downloading');
-                }}
-                downloadingMessage={`Downloading subtitle for ${data?.title}`}
-                source={{
-                    uri: data!.download.subtitle + "?redirect=true", headers: {
-                        'Content-Type': "text/srt"
-                    }
-                }} />}
-            {downloadVideo && <WebView
 
-                className='h-0 bg-red-300'
-                onError={() => {
-                    setDownloadVideo(false);
-                }}
-                onFileDownload={() => {
-                    console.log('downloading');
-                }}
-                downloadingMessage={`Downloading ${data?.title}`}
-                source={{
-                    uri: data!.download.video + "?redirect=true", headers: {
-                        'Content-Type': "video/x-matroska"
-                    }
-                }} />}
             <View className={`${width > 768 ? "flex-row p-2 gap-x-4" : 'flex-col'}`}>
                 <View className={`${width > 768 ? "flex-1" : ''}`}>
                     <MovieImage data={data} movie={movie} />
-                    {width > 768 &&
+                    {width > 768 && data &&
                         <>
                             <View className='py-2' />
                             <DownloadButtons
-                                downloadSub={downloadSub}
-                                setDownloadSub={setDownloadSub}
-                                downloadVideo={downloadVideo}
-                                setDownloadVideo={setDownloadVideo}
                                 data={data}
                             />
                         </>
@@ -148,40 +123,28 @@ export default function SingleMovie() {
     );
 }
 
-interface DownloadButtonsProps {
-    downloadSub: boolean;
-    setDownloadSub: React.Dispatch<React.SetStateAction<boolean>>;
-    downloadVideo: boolean;
-    setDownloadVideo: React.Dispatch<React.SetStateAction<boolean>>;
-    data: any; // Replace 'any' with the actual type if available
-}
 
-const DownloadButtons: React.FC<DownloadButtonsProps> = ({ downloadSub, setDownloadSub, downloadVideo, setDownloadVideo, data }) => (
+
+const DownloadButtons: React.FC<{ data: MovieDetailed }> = ({ data }) => (
     <View className="mx-4 my-2 flex-row">
         <View className="flex-1">
             <FormButton
-                loading={downloadSub}
                 onPress={() => {
-                    setDownloadSub(true);
-                    setTimeout(() => {
-                        setDownloadSub(false);
-                    }, 10 * 1000);
+                    Linking.openURL(data.download.subtitle + "?redirect=true")
                 }}
                 className={cls.btn.primaryAltClass}>
+                <Ionicons name='document-text' color={"#fff"} size={16} style={{ paddingRight: 4 }} />
                 <TTextLight>Download Subtitle</TTextLight>
             </FormButton>
         </View>
         <View className='p-2' />
         <View className="flex-1">
             <FormButton
-                loading={downloadVideo}
                 onPress={() => {
-                    setDownloadVideo(true);
-                    setTimeout(() => {
-                        setDownloadVideo(false);
-                    }, 10 * 1000);
+                    Linking.openURL(data.download.video + "?redirect=true")
                 }}
                 className={cls.btn.primaryClass}>
+                <Ionicons name='download' color={"#fff"} size={16} style={{ paddingRight: 4 }} />
                 <TTextLight className='text-white dark:text-light'>Download Video</TTextLight>
             </FormButton>
         </View>
@@ -234,13 +197,13 @@ const MovieDetails: React.FC<MovieDetailsProps> = memo(({ movie, country, data }
 
     return (<View className="p-4 flex-row flex-wrap items-center">
         <TTextLight className={`rounded-lg p-2 mr-2 ${cls.bg.opacified}`}>
-            Posted: {movie?.postedAt}
+            Posted: {`${movie?.postedAt}`.replace(/\s{2,}/g, ' ')}
         </TTextLight>
         <TTextLight className={`rounded-lg p-2 mr-2 ${cls.bg.opacified}`}>
             {movie?.duration.replace(/\s{2,}/g, ' ')}
         </TTextLight>
         <TTextLight className={`rounded-lg p-2 mr-2 ${cls.bg.opacified}`}>
-            Rating: {movie?.rate}
+            Rating: {`${movie?.rate}`.replace(/\s{2,}/g, ' ')}
         </TTextLight>
         {country && <CountryFlag country={country} />}
     </View>
