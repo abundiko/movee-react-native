@@ -1,6 +1,6 @@
 git add .
 
-COMMIT_MESSAGE="FEATURE: continue playback from last stop. v.1.0.007"
+COMMIT_MESSAGE="FIXED: more movies not loading when bottom reached. v.1.0.008"
 
 git commit -m "$COMMIT_MESSAGE"
 
