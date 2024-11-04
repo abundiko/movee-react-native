@@ -79,7 +79,7 @@ export default function HomeScreen() {
         </View>
       }
     >
-      <View className={`py-2 absolute z-20 bg-light dark:bg-dark ${showTabs ? '' : 'h-0'} `}>
+      <View className={`py-2 absolute z-20 bg-lighter dark:bg-dark ${showTabs ? '' : 'h-0'} `}>
         <ScrollView horizontal
         showsHorizontalScrollIndicator={false}
         >
@@ -140,7 +140,7 @@ export default function HomeScreen() {
             : <ScrollView
               onScroll={(ev) => {
                 const offset = ev.nativeEvent.contentOffset.y;
-                if (offset < lastY) {
+                if (offset < lastY || offset < 50) {
                   setShowTabs(true);
                 } else {
                   setShowTabs(false)
@@ -148,7 +148,7 @@ export default function HomeScreen() {
                 setLastY(offset);
               }}
             >
-              <View className="h-8"></View>
+              <View className="h-10"></View>
               <HomeMovies movies={movies} /></ScrollView>
         }
       </View>

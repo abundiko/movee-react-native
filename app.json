@@ -41,7 +41,12 @@
           "cameraPermission": "movee needs to accesses your photos for profile photos."
         }
       ],
-      "expo-video",
+      [
+        "expo-video",
+        {
+          "supportsPictureInPicture": true
+        }
+      ],
       [
         "expo-screen-orientation",
         {

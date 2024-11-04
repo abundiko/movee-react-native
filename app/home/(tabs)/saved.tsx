@@ -29,7 +29,7 @@ export default function SavedScreen() {
     >
       {
         savedLoading || !storedsaved ? <></>
-          : <HomeMovies movies={storedsaved.filter(m => m.title.toLowerCase().includes(query.toLowerCase()))} />
+          : <HomeMovies movies={[...storedsaved].reverse().filter(m => m.title.toLowerCase().includes(query.toLowerCase()))} />
       }
     </AppScaffold>
   );

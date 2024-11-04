@@ -1,6 +1,6 @@
 git add .
 
-COMMIT_MESSAGE="made home filter tabs dynamic, made optimisations to movie screen. TESTING: video playback continue from last stop 1.0.006"
+COMMIT_MESSAGE="FEATURE: continue playback from last stop. v.1.0.007"
 
 git commit -m "$COMMIT_MESSAGE"
 
