@@ -10,6 +10,11 @@ export type Movie = {
     movieType: MovieType;
 };
 
+export type MovieSuggestion = {
+    title: string;
+    movies: Movie[];
+}
+
 type MovieType = "Movie" | "Series"
 
 export type MovieMeta = {

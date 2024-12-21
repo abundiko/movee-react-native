@@ -1,5 +1,5 @@
 import { TBgView, TText } from "@/components/Themed";
-import { Pressable } from "react-native";
+import { Pressable, View } from "react-native";
 // import React from "react";
 import Feather from "@expo/vector-icons/Feather";
 import { useNavigation } from "expo-router";
@@ -39,9 +39,14 @@ export default function AppBar({
         </Pressable>
       )}
       {typeof title == "string" ? (
-        <TText numberOfLines={2} className="flex-1 text-lg font-semibold line-clamp-1">{title}</TText>
+        <TText
+          numberOfLines={2}
+          className="flex-1 text-lg font-semibold line-clamp-1"
+        >
+          {title}
+        </TText>
       ) : (
-        title
+        <View className="flex-1">{title}</View>
       )}
       {children}
     </TBgView>

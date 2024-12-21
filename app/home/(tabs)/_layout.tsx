@@ -12,6 +12,11 @@ const tabs = [
     icons: ["home", "home-outline"] as any[],
   },
   {
+    name: "search",
+    title: "Search",
+    icons: ["search", "search-outline"] as any[],
+  },
+  {
     name: "saved",
     title: "Saved",
     icons: ["heart", "heart-outline"] as any[],

@@ -1,19 +1,21 @@
 export const paths = {
-    index: "/",
-    login: "/auth/login",
-    register: "/auth/register",
+  index: "/",
+  login: "/auth/login",
+  register: "/auth/register",
 
-    home: "/home",
-    settings: "/home/settings",
-    saved: "/home/saved",
+  home: "/home",
+  settings: "/home/settings",
+  saved: "/home/saved",
+  search: "/home/search",
 
-    singleMovie: (id: string) => `/movies/${id}`,
-    singleMovieStream: `/stream`,
+  find: "/find",
 
-    settingsHistory: "/settings/history",
+  singleMovie: (id: string) => `/movies/${id}`,
+  singleMovieStream: `/stream`,
 
-    about: "/settings/about",
-    aboutFaq: "/profile/about/faq",
-    aboutDevelopers: "/profile/about/devs"
+  settingsHistory: "/settings/history",
 
-} as const
+  about: "/settings/about",
+  aboutFaq: "/profile/about/faq",
+  aboutDevelopers: "/profile/about/devs",
+} as const;
