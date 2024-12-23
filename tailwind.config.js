@@ -16,13 +16,13 @@ module.exports = {
         light: "#ccc",
         lightGrey: "#acacac",
         black: "#000",
-        dark: "#111",
-        darker: "#101010",
+        dark: "#001",
+        darker: "#101011",
         darkGrey: "#777",
       
-        primary: "#1949ff",
-        primaryLight: "#87a0ff",
-        primaryDark: "#8E2600",
+        primary: "#9606ff",
+        primaryLight: "#cc87ff",
+        primaryDark: "#2f004b",
       
         secondary: "#3fb12e",
         secondaryLight: "#89F978",

@@ -21,7 +21,7 @@ export default function MovieScreenSeriesDetails({
       <View className="my-0">
         <View className="mb-3">
           <ScrollView horizontal>
-            <View className="flex-row mb-2">
+            <View className={`mb-3 flex-row rounded-md ${cls.bg.opacified} mx-5 p-1`}>
               {data.seriesDetails.seasons.map((item, i) => {
                 return (
                   <TTextLighter
@@ -37,11 +37,11 @@ export default function MovieScreenSeriesDetails({
                         router.replace(paths.singleMovie(item.urlId) as any);
                       }
                     }}
-                    className={`font-semibold px-4 py-2 border-b ${
-                      item.isCurrent
-                        ? "text-primary border-primary"
-                        : "border-transparent"
-                    }`}
+                   className={`font-semibold px-4 py-2 rounded ${
+                  item.isCurrent
+                    ? "text-primary " + cls.bg.pureClass
+                    : "border-transparent"
+                }`}
                   >
                     Season {item.num}
                   </TTextLighter>

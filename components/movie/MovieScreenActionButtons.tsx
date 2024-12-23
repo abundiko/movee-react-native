@@ -49,7 +49,7 @@ export default function MovieScreenActionButtons({
           }}
         />
       )}
-      {movieDetailed && (
+      {!!movieDetailed ? (
         <>
           <ActionButton
             title="Download"
@@ -73,15 +73,17 @@ export default function MovieScreenActionButtons({
           />
           <ActionButton
             title="Stream"
-            icon={
-              <FontAwesome6 name={"play"} size={24} color={textLight} />
-            }
+            icon={<FontAwesome6 name={"play"} size={24} color={textLight} />}
             onPress={() => {
               setStream(movieDetailed.download.video + "?redirect=true");
               router.push(paths.singleMovieStream as any);
             }}
           />
         </>
+      ) : (
+        [1, 2, 3].map((i) => (
+          <ActionButton key={i} title="" icon={<></>} onPress={() => {}} />
+        ))
       )}
     </View>
   );

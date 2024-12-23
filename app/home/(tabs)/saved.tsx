@@ -7,30 +7,35 @@ import { View } from "react-native";
 
 export default function SavedScreen() {
   const [query, setQuery] = useState("");
-  const { storedsaved, savedLoading } = useStorageSaved()
+  const { storedsaved, savedLoading } = useStorageSaved();
 
   return (
     <AppScaffold
       appbarHeight={40}
-      title={
-        "Saved Movees"
-      }
+      title={"Saved Movees"}
       hideBack
       refreshing={savedLoading}
       underAppbar={
         <View className="flex-row px-4">
-          <SearchInput placeholder="Search saved movies"
+          <SearchInput
+            placeholder="Search saved movies"
             onChangeText={(text) => {
-              setQuery(text)
+              setQuery(text);
             }}
           />
         </View>
       }
     >
-      {
-        savedLoading || !storedsaved ? <></>
-          : <HomeMovies movies={[...storedsaved].reverse().filter(m => m.title.toLowerCase().includes(query.toLowerCase()))} />
-      }
+      {savedLoading || !storedsaved ? (
+        <></>
+      ) : (
+        <HomeMovies
+          movies={[...storedsaved]
+            .reverse()
+            .filter((m) => m.title.toLowerCase().includes(query.toLowerCase()))
+            .map((i) => ({ ...i, small: false }))}
+        />
+      )}
     </AppScaffold>
   );
 }
